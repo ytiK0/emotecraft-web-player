@@ -1,0 +1,1 @@
+# Simple React component to preview Emotecraft animation
