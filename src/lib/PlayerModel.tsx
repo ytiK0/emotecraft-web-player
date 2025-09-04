@@ -1,5 +1,6 @@
 import {Head, LeftArm, LeftArmBend, LegBend, RightArm, RightArmBend, TorsoBend} from "@/bodyParts";
 import type {BodyPart, BodyPartProps} from "@/bodyParts/bodyPart";
+import {defaultPose, defaultPositions} from "@/defaults.ts";
 
 export type Pose = Partial<Record<BodyPart, BodyPartProps>>;
 
@@ -16,25 +17,25 @@ export default function PlayerModel({ pose }: PlayerModelProps) {
     rightArm, rightArm_bend,
     leftLeg, leftLeg_bend,
     rightLeg, rightLeg_bend
-  } = pose || {};
+  } = pose || defaultPose;
 
   return (
-    <TorsoBend {...torso} position={[0, 12, 0]}>
-      <TorsoBend {...torso_bend} position={[0, 6, 0]}>
-        <Head {...head} position={[0,6,0]} />
-        <LeftArm {...leftArm} position={[5,4,0]} >
-          <LeftArmBend {...leftArm_bend} position={[1,-4,0]}  />
+    <TorsoBend {...torso} position={defaultPositions.torso}>
+      <TorsoBend {...torso_bend} position={defaultPositions.torso_bend}>
+        <Head {...head} position={defaultPositions.head} />
+        <LeftArm {...leftArm} position={defaultPositions.leftArm} >
+          <LeftArmBend {...leftArm_bend} position={defaultPositions.leftArm_bend}  />
         </LeftArm>
-        <RightArm {...rightArm} position={[-5,4,0]} >
-          <RightArmBend {...rightArm_bend} position={[-1,-4,0]}  />
+        <RightArm {...rightArm} position={defaultPositions.rightArm} >
+          <RightArmBend {...rightArm_bend} position={defaultPositions.rightArm_bend} />
         </RightArm>
       </TorsoBend>
 
-      <LegBend {...leftLeg} position={[-2,0,0]} >
-        <LegBend {...leftLeg_bend} position={[0, -6, 0]} />
+      <LegBend {...leftLeg} position={defaultPositions.leftLeg} >
+        <LegBend {...leftLeg_bend} position={defaultPositions.leftLeg_bend} />
       </LegBend>
-      <LegBend {...rightLeg} position={[2,0,0]} >
-        <LegBend {...rightLeg_bend} position={[0, -6, 0]} />
+      <LegBend {...rightLeg} position={defaultPositions.rightLeg} >
+        <LegBend {...rightLeg_bend} position={defaultPositions.rightLeg_bend} />
       </LegBend>
     </TorsoBend>
   );
