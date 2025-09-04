@@ -2,6 +2,7 @@ import {Canvas} from "@react-three/fiber";
 import {Grid, OrbitControls} from "@react-three/drei";
 import {Color, Euler, MathUtils} from "three";
 import PlayerModel, {type Pose} from "@/PlayerModel.tsx";
+import {aggregateMoves} from "@/animationJson/aggregateMoves.ts";
 
 const scene = {
   background: new Color("#012833")
@@ -23,6 +24,10 @@ const testPose: Pose = {
     rotation: new Euler(degToRad(0), degToRad(0), degToRad(-90)),
   }
 };
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+window.agg = aggregateMoves;
 
 function App() {
   return (
