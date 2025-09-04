@@ -4,7 +4,8 @@ import type {Pose} from "@/BasePlayerModel.tsx";
 export const defaultPose: Pose = {
   torso: {
     rotation: new Euler(0, 0, 0),
-    position: new Vector3(0, 12, 0)
+    position: new Vector3(0, 12, 0),
+    debug: true,
   },
   torso_bend: {
     rotation: new Euler(0, 0, 0),
