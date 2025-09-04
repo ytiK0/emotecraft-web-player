@@ -1,7 +1,7 @@
 import {Canvas} from "@react-three/fiber";
 import {Grid, OrbitControls} from "@react-three/drei";
 import {Color, Euler, MathUtils} from "three";
-import PlayerModel, {type Pose} from "@/PlayerModel.tsx";
+import BasePlayerModel, {type Pose} from "@/BasePlayerModel.tsx";
 import {aggregateMoves} from "@/animationJson/aggregateMoves.ts";
 
 const scene = {
@@ -41,7 +41,7 @@ function App() {
         />
         <Grid args={[60, 60]} sectionColor={"#089a0c"} cellColor={"#fff"} />
 
-        <PlayerModel pose={testPose} />
+        <BasePlayerModel pose={testPose} />
       </Canvas>
     </>
   );
