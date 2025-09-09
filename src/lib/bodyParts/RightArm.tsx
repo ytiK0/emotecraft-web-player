@@ -4,27 +4,31 @@ import {MeshBasicMaterial, Vector3} from "three";
 import DebugSphere from "@/utils/DebugSphere.tsx";
 import {forwardRef} from "react";
 
-const ARM_PIVOT_POINT_SHIFT = new Vector3(-1, -1, 0);
-const ARM_BEND_PIVOT_POINT_SHIFT = new Vector3(0, -3, 0);
+const PIVOT_POINT_SHIFT = new Vector3(-1, -1, 0);
+const BEND_PIVOT_POINT_SHIFT = new Vector3(0, -3, 0);
 
 const rightArmMaterial = new MeshBasicMaterial({ color: "#2e9f03" });
 
 
-export const RightArm = forwardRef(({ position, rotation, debug, children }: BodyPartProps, ref) => {
+export const RightArm = forwardRef(({ position, rotation, debug, children, name }: BodyPartProps, ref) => {
   return (
     <object3D position={position} rotation={rotation}>
       { debug && <DebugSphere /> }
-      <mesh ref={ref} position={ARM_PIVOT_POINT_SHIFT} geometry={bendGeometry} material={rightArmMaterial} />
+      <object3D ref={ref} name={name}>
+        <mesh position={PIVOT_POINT_SHIFT} geometry={bendGeometry} material={rightArmMaterial} />
+      </object3D>
       { children }
     </object3D>
   );
 });
 
-export const RightArmBend = forwardRef(({ position, rotation, debug, children }: BodyPartProps, ref) => {
+export const RightArmBend = forwardRef(({ position, rotation, debug, children, name }: BodyPartProps, ref) => {
   return (
     <object3D position={position} rotation={rotation}>
       { debug && <DebugSphere /> }
-      <mesh ref={ref} position={ARM_BEND_PIVOT_POINT_SHIFT} geometry={bendGeometry} />
+      <object3D ref={ref} name={name}>
+        <mesh position={BEND_PIVOT_POINT_SHIFT} geometry={bendGeometry} />
+      </object3D>
       { children }
     </object3D>
   );

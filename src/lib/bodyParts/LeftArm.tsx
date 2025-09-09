@@ -4,27 +4,31 @@ import DebugSphere from "@/utils/DebugSphere.tsx";
 import {bendGeometry} from "@/bodyParts/bendGeometry.ts";
 import {forwardRef} from "react";
 
-const LEFT_ARM_ROTATION_CENTER = new Vector3(1, -1, 0);
-const LEFT_ARM_BEND_ROTATION_CENTER = new Vector3(0, -3, 0);
+const PIVOT_CENTER_SHIFT = new Vector3(1, -1, 0);
+const BEND_PIVOT_CENTER_SHIFT = new Vector3(0, -3, 0);
 
 const leftArmMaterial = new MeshBasicMaterial({ color: "#2e9f03" });
 
-export const LeftArm = forwardRef<Mesh, BodyPartProps>(({ position, rotation, debug, children }: BodyPartProps, ref) => {
+export const LeftArm = forwardRef<Mesh, BodyPartProps>(({ position, rotation, debug, children, name }: BodyPartProps, ref) => {
   return (
     <object3D position={position} rotation={rotation}>
       { debug && <DebugSphere /> }
-      <mesh ref={ref} position={LEFT_ARM_ROTATION_CENTER} geometry={bendGeometry} material={leftArmMaterial} />
+      <object3D ref={ref} name={name}>
+        <mesh position={PIVOT_CENTER_SHIFT} geometry={bendGeometry} material={leftArmMaterial} />
+      </object3D>
       { children }
     </object3D>
   );
 });
 
 
-export const LeftArmBend = forwardRef(({ position, rotation, debug, children }: BodyPartProps, ref) => {
+export const LeftArmBend = forwardRef(({ position, rotation, debug, children, name }: BodyPartProps, ref) => {
   return (
     <object3D position={position} rotation={rotation}>
       { debug && <DebugSphere /> }
-      <mesh ref={ref} position={LEFT_ARM_BEND_ROTATION_CENTER} geometry={bendGeometry} />
+      <object3D ref={ref} name={name}>
+        <mesh position={BEND_PIVOT_CENTER_SHIFT} geometry={bendGeometry} />
+      </object3D>
       { children }
     </object3D>
   );
