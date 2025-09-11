@@ -24,7 +24,6 @@ export default function DebugSphere({sphereSize, axesSize, color}: DebugSpherePr
   return (
     <group name={"debug-sphere"}>
       <axesHelper args={[axesSize || DEFAULT_AXES_SIZE]}/>
-      <axesHelper args={[axesSize || DEFAULT_AXES_SIZE]} scale={-1}/>
       <Sphere args={[sphereSize || DEFAULT_SPHERE_SIZE]} renderOrder={999} material={sphereMaterial}/>
     </group>
   );
