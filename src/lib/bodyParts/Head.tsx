@@ -11,8 +11,8 @@ const headMaterial = new MeshBasicMaterial({ color: "#f6a858" });
 export const Head = forwardRef<Mesh>(({ position, rotation, debug, children, name }: BodyPartProps, ref) => {
   return (
     <group position={position} rotation={rotation}>
-      { debug && <DebugSphere /> }
       <object3D ref={ref} name={name}>
+      { debug && <DebugSphere /> }
         <mesh position={PIVOT_POINT_SHIFT} material={headMaterial}>
           <boxGeometry args={HEAD_SIZE} />
         </mesh>
