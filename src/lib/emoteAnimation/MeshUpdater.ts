@@ -1,5 +1,11 @@
 import type {PlayerModelMesh} from "@/player";
-import type {Update} from "@/emoteAnimation/animationJson";
+import type {PositionTransformationDir, Update} from "@/emoteAnimation/animationJson";
+
+const componentIndex: Record<PositionTransformationDir, number> = {
+  "x": 0,
+  "y": 1,
+  "z": 2,
+};
 
 export class MeshUpdater {
   private readonly playerMesh: PlayerModelMesh;
@@ -18,18 +24,9 @@ export class MeshUpdater {
 
       if (transformType === "rotation") {
         rotation[axis] = value;
-        const rotationTuple = rotation.toArray();
-        if (axis == "x") {
-          rotationTuple[0] = value;
-        } else if (axis == "y") {
-          rotationTuple[1] = value;
-        } else {
-          rotationTuple[2] = value;
-        }
-
-        rotation.set(...rotationTuple);
+        mesh.setRotationFromEuler(rotation);
       } else {
-        position.setComponent(["x", "y", "z"].indexOf(axis), value * 4);
+        position.setComponent(componentIndex[axis], value * 4);
       }
     }
   }
