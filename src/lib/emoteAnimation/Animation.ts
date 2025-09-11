@@ -1,5 +1,5 @@
 import {Track} from "@/emoteAnimation/Track.ts";
-import {MOVE_TRANSFORMS_DIR} from "@/animationJson/constst.ts";
+import {MOVE_TRANSFORMS_DIR} from "@/emoteAnimation/constst.ts";
 import {EmoteKeyframe} from "@/emoteAnimation/EmoteKeyframe.ts";
 import type {EmoteMeta, Move, MovePart, TransformationDir, Update} from "@/emoteAnimation/animationJson";
 import {isRotationTransformDir} from "@/utils/typeGuards/isRotationTransformDir.ts";
