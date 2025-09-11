@@ -1,0 +1,90 @@
+import type {Emote} from "@/emoteAnimation/animationJson";
+
+export const headEmote: Emote = {
+  "name": "headEmote",
+  "author": "Your name",
+  "description": "description",
+  "emote":{
+    "isLoop": "false",
+    "returnTick": 2,
+    "beginTick":0,
+    "endTick":60,
+    "stopTick":61,
+    "degrees":false,
+    "moves":[
+
+      {
+        "tick":40,
+        "easing": "EASEINOUTQUAD",
+        "turn": 0,
+        "head":{
+          "y":-8.0
+        }
+      },
+      {
+        "tick":40,
+        "easing": "EASEINOUTQUAD",
+        "turn": 0,
+        "head":{
+          "x":-8.0
+        }
+      },
+      {
+        "tick":10,
+        "easing": "EASEINOUTQUAD",
+        "turn": 0,
+        "head":{
+          "yaw":-1.570796251296997
+        }
+      },
+      {
+        "tick":30,
+        "easing": "EASEINOUTQUAD",
+        "turn": 0,
+        "head":{
+          "yaw":4.371138828673793e-08
+        }
+      },
+      {
+        "tick":50,
+        "easing": "EASEINOUTQUAD",
+        "turn": 0,
+        "head":{
+          "yaw":-3.141592502593994
+        }
+      },
+      {
+        "tick":30,
+        "easing": "EASEINOUTQUAD",
+        "turn": 0,
+        "head":{
+          "roll":1.570796251296997
+        }
+      },
+      {
+        "tick":50,
+        "easing": "EASEINOUTQUAD",
+        "turn": 0,
+        "head":{
+          "roll":-1.5707963705062866
+        }
+      },
+      {
+        "tick":30,
+        "easing": "EASEINOUTQUAD",
+        "turn": 0,
+        "head":{
+          "pitch":-1.5707963705062866
+        }
+      },
+      {
+        "tick":50,
+        "easing": "EASEINOUTQUAD",
+        "turn": 0,
+        "head":{
+          "pitch":-8.742277657347586e-08
+        }
+      }
+    ]
+  }
+}

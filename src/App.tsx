@@ -1,15 +1,12 @@
 import {Canvas} from "@react-three/fiber";
 import {Grid, OrbitControls} from "@react-three/drei";
 import {Color} from "three";
-import {aggregateMoves} from "@/animationJson/aggregateMoves.ts";
+import EmotePlayer from "@/EmotePlayer.tsx";
+import {headEmote as emote} from "./headEmote.ts";
 
 const scene = {
   background: new Color("#012833")
 };
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-window.agg = aggregateMoves;
 
 function App() {
   return (
@@ -23,6 +20,7 @@ function App() {
         />
         <Grid args={[60, 60]} sectionColor={"#089a0c"} cellColor={"#fff"} />
 
+        <EmotePlayer emote={emote} />
       </Canvas>
     </>
   );
