@@ -12,6 +12,7 @@ export default function EmotePlayer({ emote }: { emote: Emote }) {
 
 
   useFrame((_, delta) => {
+    delta *= 1;
     if (player) {
       player.update(delta as Second);
     }
@@ -29,6 +30,19 @@ export default function EmotePlayer({ emote }: { emote: Emote }) {
       setPlayer(new EmoteAnimationPlayer(playerModelRef.current));
     }
   }, []);
+
+  useEffect(() => {
+    const toggle = (ev: KeyboardEvent) => {
+      if (ev.code === "Space" && player) {
+        console.log("stop");
+        player.isPlaying = !player.isPlaying;
+      }
+    };
+
+    window.addEventListener("keydown", toggle);
+
+    return () => window.removeEventListener("keydown", toggle);
+  }, [player]);
 
   return (
     <BasePlayerModel ref={playerModelRef} />
