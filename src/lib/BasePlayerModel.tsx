@@ -1,19 +1,15 @@
 import {Head, LeftArm, LeftArmBend, LegBend, RightArm, RightArmBend, TorsoBend} from "@/bodyParts";
-import type {BodyPart, BodyPartProps} from "@/bodyParts/bodyPart";
 import {defaultPose} from "@/defaults.ts";
 import type {Mesh} from "three";
 import {forwardRef, useCallback, useImperativeHandle, useRef} from "react";
 import {warn} from "@/utils/warn.ts";
-import {useFrame} from "@react-three/fiber";
-
-export type Pose = Partial<Record<BodyPart, BodyPartProps>>;
-export type BasePlayerModelMesh = Record<BodyPart, Mesh>
+import type {PlayerModelMesh, Pose} from "@/player";
 
 interface PlayerModelProps {
   pose?: Pose;
 }
 
-export const BasePlayerModel = forwardRef<BasePlayerModelMesh>(({ pose }: PlayerModelProps, ref) => {
+export const BasePlayerModel = forwardRef<PlayerModelMesh>(({ pose }: PlayerModelProps, ref) => {
   const {
     head,
     torso, torso_bend,
@@ -23,7 +19,7 @@ export const BasePlayerModel = forwardRef<BasePlayerModelMesh>(({ pose }: Player
     rightLeg, rightLeg_bend
   } = pose || defaultPose;
 
-  const meshes = useRef<Partial<BasePlayerModelMesh> & Record<string, Mesh>>({});
+  const meshes = useRef<Partial<PlayerModelMesh> & Record<string, Mesh>>({});
 
   const setMeshRef = useCallback((mesh: Mesh) => {
     if (mesh) {
@@ -46,13 +42,7 @@ export const BasePlayerModel = forwardRef<BasePlayerModelMesh>(({ pose }: Player
     }
   }, []);
 
-  useFrame((_, delta) => {
-    meshes.current.head?.rotateZ(delta * 2.5);
-    meshes.current.head?.rotateX(delta * 0.5);
-    meshes.current.head?.rotateY(delta);
-  });
-
-  useImperativeHandle(ref, () => meshes.current as BasePlayerModelMesh);
+  useImperativeHandle(ref, () => meshes.current as PlayerModelMesh);
 
   return (
     <TorsoBend ref={setMeshRef} name={"torso"} {...torso}>

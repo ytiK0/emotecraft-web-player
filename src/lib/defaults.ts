@@ -1,5 +1,5 @@
 import {Euler, Vector3} from "three";
-import type {Pose} from "@/BasePlayerModel.tsx";
+import type {Pose} from "@/player";
 
 export const defaultPose: Pose = {
   torso: {
