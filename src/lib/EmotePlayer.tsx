@@ -4,7 +4,9 @@ import type {PlayerModelMesh} from "@/player";
 import type {Emote} from "@/emoteAnimation/animationJson";
 import {EmoteAnimationPlayer} from "@/emoteAnimation/EmoteAnimationPlayer.ts";
 import {useFrame} from "@react-three/fiber";
+import {Euler} from "three";
 
+Euler.DEFAULT_ORDER = "ZYX" as "XYZ";
 
 export default function EmotePlayer({ emote }: { emote: Emote }) {
   const playerModelRef = useRef<PlayerModelMesh>(null);
@@ -22,20 +24,25 @@ export default function EmotePlayer({ emote }: { emote: Emote }) {
     if (player) {
       player.resume();
       player.playEmote(emote);
+      // @ts-ignore only for dev
+      window.anim = player.animation;
     }
   }, [emote, player]);
 
   useEffect(() => {
     if (playerModelRef.current) {
       setPlayer(new EmoteAnimationPlayer(playerModelRef.current));
+      // @ts-ignore only for dev
+      window.mesh = playerModelRef.current;
     }
   }, []);
 
   useEffect(() => {
     const toggle = (ev: KeyboardEvent) => {
       if (ev.code === "Space" && player) {
-        console.log("stop");
         player.isPlaying = !player.isPlaying;
+      } else if (ev.code === "KeyR" && player) {
+        player.restart();
       }
     };
 
