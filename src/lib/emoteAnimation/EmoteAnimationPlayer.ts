@@ -35,16 +35,21 @@ export class EmoteAnimationPlayer {
     this._isPlaying = true;
   }
 
+  restart() {
+    this.resume();
+    this.timeLine.reset();
+  }
+
   update(delta: Second) {
     if (this._isPlaying && this.animation) {
       this.timeLine.update(delta);
-      if (this.timeLine.currentTime >= 40 * (1/20)) {
-        this.pause();
-        return;
-      }
 
       const t = this.timeLine.currentTick;
-      // console.log(t);
+
+      // should change to stop tick
+      if (t >= 100) {
+        this.pause();
+      }
 
       const updates = this.animation.getUpdates(t);
       this.meshUpdater.update(updates);
