@@ -10,13 +10,13 @@ const torsoMaterial = new MeshBasicMaterial({ color: "#6c04a8" });
 export const TorsoBend = forwardRef<Mesh, BodyPartProps>(({ position, rotation, debug, children, name }: BodyPartProps, ref) => {
   return (
     <object3D position={position} rotation={rotation}>
-      { debug && <DebugSphere /> }
       <object3D ref={ref} name={name} >
+        { debug && <DebugSphere /> }
         <mesh position={PIVOT_CENTER_SHIFT} material={torsoMaterial}>
           <boxGeometry args={[8, 6, 4]} />
         </mesh>
+        { children }
       </object3D>
-      { children }
     </object3D>
   );
 });

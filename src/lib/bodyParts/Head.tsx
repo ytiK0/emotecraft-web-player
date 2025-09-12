@@ -16,8 +16,8 @@ export const Head = forwardRef<Mesh>(({ position, rotation, debug, children, nam
         <mesh position={PIVOT_POINT_SHIFT} material={headMaterial}>
           <boxGeometry args={HEAD_SIZE} />
         </mesh>
+        { children }
       </object3D>
-      { children }
     </group>
   );
 });

@@ -11,11 +11,11 @@ const bendMaterial = new MeshBasicMaterial({ color: "#b308ae" });
 export const LegBend = forwardRef(({ position, rotation, debug, children, name }: BodyPartProps, ref) => {
   return (
     <object3D position={position} rotation={rotation}>
-      { debug && <DebugSphere /> }
       <object3D ref={ref} name={name}>
+        { debug && <DebugSphere /> }
         <mesh position={PIVOT_POINT_SHIFT} geometry={bendGeometry} material={bendMaterial} />
+        { children }
       </object3D>
-      { children }
     </object3D>
   );
 });

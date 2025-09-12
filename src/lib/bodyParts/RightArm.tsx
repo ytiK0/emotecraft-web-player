@@ -13,11 +13,11 @@ const rightArmMaterial = new MeshBasicMaterial({ color: "#2e9f03" });
 export const RightArm = forwardRef(({ position, rotation, debug, children, name }: BodyPartProps, ref) => {
   return (
     <object3D position={position} rotation={rotation}>
-      { debug && <DebugSphere /> }
       <object3D ref={ref} name={name}>
+        { debug && <DebugSphere /> }
         <mesh position={PIVOT_POINT_SHIFT} geometry={bendGeometry} material={rightArmMaterial} />
+        { children }
       </object3D>
-      { children }
     </object3D>
   );
 });
@@ -25,11 +25,11 @@ export const RightArm = forwardRef(({ position, rotation, debug, children, name 
 export const RightArmBend = forwardRef(({ position, rotation, debug, children, name }: BodyPartProps, ref) => {
   return (
     <object3D position={position} rotation={rotation}>
-      { debug && <DebugSphere /> }
       <object3D ref={ref} name={name}>
+        { debug && <DebugSphere /> }
         <mesh position={BEND_PIVOT_POINT_SHIFT} geometry={bendGeometry} />
+        { children }
       </object3D>
-      { children }
     </object3D>
   );
 });
