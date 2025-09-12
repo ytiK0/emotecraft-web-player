@@ -56,13 +56,13 @@ export class Interpolator {
     return result;
   }
 
-  static interpolate(keyframePair: KeyframePair, time: number, endTick: number) {
+  static interpolate(keyframePair: KeyframePair, time: Tick) {
     const { prev, next } = keyframePair;
 
     const { tick: t0, value: v0, easing } = prev;
-    const { tick: t1, value: v1 } = next || { tick: endTick, value: 0 };
+    const { tick: t1, value: v1 } = next || prev;
 
-    if (prev.tick === next?.tick) return v1;
+    if (t0 === t1) return v1;
 
     const easingFn = this.parseEasing(easing);
 
