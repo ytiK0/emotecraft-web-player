@@ -18,10 +18,14 @@ export class EmoteKeyframe implements IEmoteKeyframe{
   public readonly transformType: "position" | "rotation";
   public readonly axis;
 
-  constructor(move: Move, part: MovePart, dir: TransformationDir) {
+  constructor(move: Move, part: MovePart, dir: TransformationDir | "bend") {
     this.tick = move.tick;
     this.easing = move.easing;
     this.value = move[part]![dir] || 0;
+
+    if (dir === "bend") {
+      dir = "pitch";
+    }
 
     this.transformType = "position";
     if (isRotationTransformDir(dir)) {
