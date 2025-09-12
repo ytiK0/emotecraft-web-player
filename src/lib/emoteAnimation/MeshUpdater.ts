@@ -1,11 +1,5 @@
 import type {PlayerModelMesh} from "@/player";
-import type {PositionTransformationDir, Update} from "@/emoteAnimation/animationJson";
-
-const componentIndex: Record<PositionTransformationDir, number> = {
-  "x": 0,
-  "y": 1,
-  "z": 2,
-};
+import type {Update} from "@/emoteAnimation/animationJson";
 
 export class MeshUpdater {
   private readonly playerMesh: PlayerModelMesh;
@@ -24,9 +18,8 @@ export class MeshUpdater {
 
       if (transformType === "rotation") {
         rotation[axis] = value;
-        mesh.setRotationFromEuler(rotation);
       } else {
-        position.setComponent(componentIndex[axis], value * 4);
+        position[axis] = value * 4;
       }
     }
   }
