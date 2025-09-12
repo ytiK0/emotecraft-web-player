@@ -1,6 +1,4 @@
-import type {Emote} from "@/emoteAnimation/animationJson";
-
-export const headEmote: Emote = {
+{
   "name": "headEmote",
   "author": "Your name",
   "description": "description",
