@@ -27,7 +27,7 @@ export class Channel {
     this.axis = transformationDir;
     this.keyframes.push({
       tick: 0,
-      easing: "LINEAR",
+      easing: keyframes[0]?.easing || "LINEAR",
       axis: this.axis,
       transformType: this.transformType,
       value: 0,
@@ -38,7 +38,7 @@ export class Channel {
   getKeyframes(t: Tick): KeyframePair {
     const kf = this.keyframes;
 
-    while (this.cursor < kf.length - 2 && t >= kf[this.cursor + 1].tick) {
+    while (this.cursor < kf.length - 1 && t >= kf[this.cursor + 1]?.tick) {
       this.cursor++;
     }
 
@@ -50,5 +50,29 @@ export class Channel {
       prev: kf[this.cursor],
       next: kf[this.cursor + 1]
     };
+  }
+
+  hasKeyframe(t: Tick) {
+    return this.findKeyframeByTick(t) !== null;
+  }
+
+  findKeyframeByTick(t: Tick) {
+    const kfs = this.keyframes;
+    let l = 0;
+    let r = kfs.length - 1;
+
+    while (l <= r) {
+      const m = l + Math.floor((r - l) / 2);
+      if (kfs[m].tick === t) {
+        return kfs[m];
+      }
+      if (kfs[m].tick < t) {
+        l = m + 1;
+      } else {
+        r = m - 1;
+      }
+    }
+
+    return null;
   }
 }
