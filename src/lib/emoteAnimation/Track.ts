@@ -9,18 +9,18 @@ const TRANSFORMATION_DIR: TransformationDir[] = ["x", "y", "z", "pitch", "roll",
 
 export class Track {
   public readonly target: BodyPart;
-  private _channels: Channel[];
+  private channels: Channel[];
 
   constructor(target: BodyPart, keyframes: EmoteKeyframe[]) {
     this.target = target;
-    this._channels = TRANSFORMATION_DIR.map((dir) => new Channel(dir, keyframes));
+    this.channels = TRANSFORMATION_DIR.map((dir) => new Channel(dir, keyframes));
   }
 
   getUpdate(t: Tick): Update[] {
-    return this._channels.map((channel) => {
+    return this.channels.map((channel) => {
       const pair = channel.getKeyframes(t);
 
-      const value = Interpolator.interpolate(pair, t, 60);
+      const value = Interpolator.interpolate(pair, t);
 
       return {
         axis: channel.axis,
