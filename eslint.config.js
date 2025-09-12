@@ -21,6 +21,7 @@ export default tseslint.config([
     },
     rules: {
       "semi": "error",
+      "@typescript-eslint/ban-ts-comment": "warn"
     }
   },
 ])
