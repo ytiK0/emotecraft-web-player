@@ -1,5 +1,4 @@
-export { Head } from './Head';
-export { TorsoBend } from './TorsoBend.tsx';
-export { LeftArm, LeftArmBend } from './LeftArm.tsx';
-export { RightArm, RightArmBend } from './RightArm.tsx';
-export { LegBend } from './LegBend.tsx';
+export { Head } from './Head.tsx';
+export { TorsoBend, Torso } from './Torso.tsx';
+export { LeftArm, RightArm } from './Arms.tsx';
+export { LeftLeg, RightLeg } from './Legs.tsx';

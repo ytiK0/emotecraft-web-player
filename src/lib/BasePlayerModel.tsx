@@ -1,9 +1,10 @@
-import {Head, LeftArm, LeftArmBend, LegBend, RightArm, RightArmBend, TorsoBend} from "@/bodyParts";
+import {Head, LeftArm, LeftLeg, RightArm, RightLeg, Torso, TorsoBend} from "@/bodyParts";
 import {defaultPose} from "@/defaults.ts";
 import type {Mesh} from "three";
 import {forwardRef, useCallback, useImperativeHandle, useRef} from "react";
 import {warn} from "@/utils/warn.ts";
 import type {PlayerModelMesh, Pose} from "@/player";
+import {SkinMaterialProvider} from "@/contexts/SkinMaterial";
 
 interface PlayerModelProps {
   pose?: Pose;
@@ -13,10 +14,10 @@ export const BasePlayerModel = forwardRef<PlayerModelMesh>(({ pose }: PlayerMode
   const {
     head,
     torso, torso_bend,
-    leftArm, leftArm_bend,
-    rightArm, rightArm_bend,
-    leftLeg, leftLeg_bend,
-    rightLeg, rightLeg_bend
+    leftArm,
+    rightArm,
+    leftLeg,
+    rightLeg
   } = pose || defaultPose;
 
   const meshes = useRef<Partial<PlayerModelMesh> & Record<string, Mesh>>({});
@@ -45,23 +46,17 @@ export const BasePlayerModel = forwardRef<PlayerModelMesh>(({ pose }: PlayerMode
   useImperativeHandle(ref, () => meshes.current as PlayerModelMesh);
 
   return (
-    <TorsoBend ref={setMeshRef} name={"torso"} {...torso}>
-      <TorsoBend ref={setMeshRef} name={"torso_bend"} {...torso_bend}>
-        <Head ref={setMeshRef} name={"head"} {...head} />
-        <LeftArm ref={setMeshRef} name={"leftArm"} {...leftArm}>
-          <LeftArmBend ref={setMeshRef} name={"leftArm_bend"} {...leftArm_bend} />
-        </LeftArm>
-        <RightArm ref={setMeshRef} name={"rightArm"} {...rightArm}>
-          <RightArmBend ref={setMeshRef} name={"rightArm_bend"} {...rightArm_bend} />
-        </RightArm>
-      </TorsoBend>
+    <SkinMaterialProvider skinSrc={"/skin.png"}>
+      <Torso ref={setMeshRef} name={"torso"} {...torso}>
+        <TorsoBend ref={setMeshRef} name={"torso_bend"} {...torso_bend}>
+          <Head ref={setMeshRef} name={"head"} {...head} />
+          <LeftArm ref={setMeshRef} name={"leftArm"} {...leftArm} />
+          <RightArm ref={setMeshRef} name={"rightArm"} {...rightArm} />
+        </TorsoBend>
 
-      <LegBend ref={setMeshRef} name={"leftLeg"} {...leftLeg}>
-        <LegBend ref={setMeshRef} name={"leftLeg_bend"} {...leftLeg_bend} />
-      </LegBend>
-      <LegBend ref={setMeshRef} name={"rightLeg"} {...rightLeg}>
-        <LegBend ref={setMeshRef} name={"rightLeg_bend"} {...rightLeg_bend} />
-      </LegBend>
-    </TorsoBend>
+        <LeftLeg ref={setMeshRef} name={"leftLeg"} {...leftLeg} />
+        <RightLeg ref={setMeshRef} name={"rightLeg"} {...rightLeg} />
+      </Torso>
+    </SkinMaterialProvider>
   );
 });

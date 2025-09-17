@@ -1,23 +1,22 @@
-import type {BodyPartProps} from "./bodyPart";
-import {type Mesh, MeshBasicMaterial, Vector3} from "three";
-import DebugSphere from "@/utils/DebugSphere.tsx";
+import {type Mesh, Vector2, Vector3, type Vector3Tuple} from "three";
 import {forwardRef} from "react";
+import type {BodyPartProps} from "@/bodyParts/bodyPart";
+import {BodyPartBase} from "@/bodyParts/BodyPartBase.tsx";
 
 const PIVOT_POINT_SHIFT = new Vector3(0, 4, 0);
-const HEAD_SIZE = [8, 8, 8] as const;
+const HEAD_SIZE = [8, 8, 8] as Vector3Tuple;
+const TEXTURE_START = new Vector2(0, 0);
 
-const headMaterial = new MeshBasicMaterial({ color: "#f6a858" });
-
-export const Head = forwardRef<Mesh>(({ position, rotation, debug, children, name }: BodyPartProps, ref) => {
-  return (
-    <group position={position} rotation={rotation}>
-      <object3D ref={ref} name={name}>
-      { debug && <DebugSphere /> }
-        <mesh position={PIVOT_POINT_SHIFT} material={headMaterial}>
-          <boxGeometry args={HEAD_SIZE} />
-        </mesh>
-        { children }
-      </object3D>
-    </group>
-  );
+export const Head = forwardRef<Mesh, BodyPartProps>(({ name, debug, children, position }: BodyPartProps, ref) => {
+  return <BodyPartBase
+    ref={ref}
+    pivotShift={PIVOT_POINT_SHIFT}
+    partSize={HEAD_SIZE}
+    textureStart={TEXTURE_START}
+    name={name}
+    debug={debug}
+    position={position}
+  >
+    { children }
+  </BodyPartBase>;
 });
