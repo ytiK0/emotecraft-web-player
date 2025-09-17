@@ -22,10 +22,12 @@ export class BodyPartGeometry extends BufferGeometry{
 
     const verts = this._generateVerts();
     const indexes = this._generateIndexes();
+    const uv = this._generateUV(partTextureStart);
 
     this.setIndex(indexes);
     this.setAttribute("position", new Float32BufferAttribute(verts, 3));
-    this._generateUV(partTextureStart);
+    this.setAttribute("uv", new Float32BufferAttribute(uv, 2));
+    this.computeVertexNormals();
   }
 
   private _generateVerts() {
@@ -102,7 +104,7 @@ export class BodyPartGeometry extends BufferGeometry{
     return indexes;
   }
 
-  private _generateUV(textureStart: Vector2): void {
+  private _generateUV(textureStart: Vector2) {
     const normalizeScale = 1 / SKIN_TEXTURE_SIZE;
 
     const bendHeight = this.height / this.bendCount;
@@ -141,6 +143,6 @@ export class BodyPartGeometry extends BufferGeometry{
       idx++;
     }
 
-    this.setAttribute("uv", new Float32BufferAttribute(uv, 2));
+    return uv;
   }
 }
