@@ -19,4 +19,8 @@ export class Timeline {
   reset() {
     this._currentTime = 0 as Second;
   }
+
+  setCurrentTimeByTick(tick: Tick) {
+    this._currentTime = (tick * TICK_IN_S) as Second;
+  }
 }

@@ -1,5 +1,5 @@
-import type {EmoteKeyframe} from "@/emoteAnimation/EmoteKeyframe.ts";
-import type {KeyframePair, RotationTransformationDir, TransformationDir} from "@/emoteAnimation/animationJson";
+import type {EmoteKeyframe} from "@/emoteAnimation/core/EmoteKeyframe.ts";
+import type {KeyframePair, RotationTransformationDir, TransformationDir} from "@/emoteAnimation/types/animationJson";
 
 const rotationMap = {
   "pitch": "x",

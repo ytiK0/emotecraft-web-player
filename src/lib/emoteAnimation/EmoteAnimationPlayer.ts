@@ -1,13 +1,13 @@
-import {Timeline} from "@/emoteAnimation/Timeline.ts";
-import {Animation} from "@/emoteAnimation/Animation.ts";
+import {Timeline} from "@/emoteAnimation/core/Timeline.ts";
+import {Animation} from "@/emoteAnimation/core/Animation.ts";
 import type {PlayerModelMesh} from "@/player";
-import {MeshUpdater} from "@/emoteAnimation/MeshUpdater.ts";
-import type {Emote} from "@/emoteAnimation/animationJson";
+import {MeshUpdater} from "@/emoteAnimation/core/MeshUpdater.ts";
+import type {Emote} from "@/emoteAnimation/types/animationJson";
 
 export class EmoteAnimationPlayer {
-  private timeLine = new Timeline();
-  private animation?: Animation;
+  private readonly timeLine = new Timeline();
   private readonly meshUpdater: MeshUpdater;
+  private animation?: Animation;
   private _isPlaying = false;
 
   get isPlaying() {
@@ -24,7 +24,6 @@ export class EmoteAnimationPlayer {
 
   playEmote(emote: Emote) {
     this.animation = new Animation(emote.emote);
-    // window.anim = this.animation;
   }
 
   pause() {
@@ -42,13 +41,13 @@ export class EmoteAnimationPlayer {
 
   update(delta: Second) {
     if (this._isPlaying && this.animation) {
+      const animation = this.animation;
       this.timeLine.update(delta);
 
       const t = this.timeLine.currentTick;
 
-      // should change to stop tick
-      if (t >= 100) {
-        this.pause();
+      if (animation.isLoop && this.timeLine.currentTick >= animation.endTick) {
+        this.timeLine.setCurrentTimeByTick(animation.returnTick);
       }
 
       const updates = this.animation.getUpdates(t);

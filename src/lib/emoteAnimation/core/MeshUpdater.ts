@@ -1,5 +1,6 @@
 import type {PlayerModelMesh} from "@/player";
-import type {Update} from "@/emoteAnimation/animationJson";
+import type {Update} from "@/emoteAnimation/types/animationJson";
+import type {BodyPart} from "@/bodyParts/bodyPart";
 
 export class MeshUpdater {
   private readonly playerMesh: PlayerModelMesh;
@@ -21,6 +22,14 @@ export class MeshUpdater {
       } else {
         position[axis] = value * 4;
       }
+    }
+  }
+
+  reset() {
+    for (const part in this.playerMesh) {
+      const mesh = this.playerMesh[part as BodyPart];
+      mesh.position.multiplyScalar(0);
+      mesh.rotation.set(0,0,0);
     }
   }
 

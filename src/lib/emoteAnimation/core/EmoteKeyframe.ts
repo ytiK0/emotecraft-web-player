@@ -2,7 +2,7 @@ import type {
   IEmoteKeyframe, Move,
   MovePart,
   TransformationDir
-} from "@/emoteAnimation/animationJson";
+} from "@/emoteAnimation/types/animationJson";
 import {isRotationTransformDir} from "@/utils/typeGuards/isRotationTransformDir.ts";
 
 const rotationMap = {

@@ -1,8 +1,8 @@
 import type {BodyPart} from "@/bodyParts/bodyPart";
-import {Channel} from "@/emoteAnimation/Channel.ts";
-import type {EmoteKeyframe} from "@/emoteAnimation/EmoteKeyframe.ts";
-import type {TransformationDir, Update} from "@/emoteAnimation/animationJson";
-import {Interpolator} from "@/emoteAnimation/Interpolator.ts";
+import {Channel} from "@/emoteAnimation/core/Channel.ts";
+import type {EmoteKeyframe} from "@/emoteAnimation/core/EmoteKeyframe.ts";
+import type {TransformationDir, Update} from "@/emoteAnimation/types/animationJson";
+import {Interpolator} from "@/emoteAnimation/core/Interpolator.ts";
 
 const TRANSFORMATION_DIR: TransformationDir[] = ["x", "y", "z", "pitch", "roll", "yaw"];
 

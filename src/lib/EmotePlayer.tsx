@@ -1,7 +1,7 @@
 import {BasePlayerModel} from "@/BasePlayerModel.tsx";
 import {useEffect, useRef, useState} from "react";
 import type {PlayerModelMesh} from "@/player";
-import type {Emote} from "@/emoteAnimation/animationJson";
+import type {Emote} from "@/emoteAnimation/types/animationJson";
 import {EmoteAnimationPlayer} from "@/emoteAnimation/EmoteAnimationPlayer.ts";
 import {useFrame} from "@react-three/fiber";
 import {Euler} from "three";
@@ -22,7 +22,7 @@ export default function EmotePlayer({ emote }: { emote: Emote }) {
 
   useEffect(() => {
     if (player) {
-      player.resume();
+      player.restart();
       player.playEmote(emote);
       // @ts-ignore only for dev
       window.anim = player.animation;

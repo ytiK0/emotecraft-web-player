@@ -3,7 +3,7 @@ import type {
   PositionTransformationDir,
   RotationTransformationDir,
   TransformationDir
-} from "@/emoteAnimation/animationJson";
+} from "@/emoteAnimation/types/animationJson";
 
 export const MOVE_PARTS: MovePart[] = ["head", "leftArm", "leftLeg", "rightArm", "rightLeg", "torso"];
 

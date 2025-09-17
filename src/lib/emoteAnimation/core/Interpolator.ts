@@ -1,5 +1,5 @@
 import E from "easing-functions";
-import type {KeyframePair} from "@/emoteAnimation/animationJson";
+import type {KeyframePair} from "@/emoteAnimation/types/animationJson";
 
 E.Constant = (t: number) => t >= 1 ? t : 0;
 

@@ -1,9 +1,9 @@
 import {Canvas} from "@react-three/fiber";
-import {Grid, OrbitControls} from "@react-three/drei";
+import {OrbitControls} from "@react-three/drei";
 import {Color} from "three";
-import type {Emote} from "@/emoteAnimation/animationJson";
+import type {Emote} from "@/emoteAnimation/types/animationJson";
 import EmotePlayer from "@/EmotePlayer.tsx";
-import emote from "./emotes/emote.json";
+import emote from "./emotes/SPE_Witch Pose.json";
 
 
 const scene = {
@@ -19,7 +19,7 @@ function App() {
         <OrbitControls target={[0,16,0]} enablePan
                        maxDistance={50} makeDefault
         />
-        <Grid args={[60, 60]} sectionColor={"#089a0c"} cellColor={"#fff"} />
+        {/*<Grid  args={[60, 60]} sectionColor={"#089a0c"} cellColor={"#fff"} />*/}
 
         <EmotePlayer emote={emote as Emote} />
         {/*<BasePlayerModel />*/}
