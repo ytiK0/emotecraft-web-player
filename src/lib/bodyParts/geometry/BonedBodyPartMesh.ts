@@ -61,19 +61,19 @@ export class BonedBodyPartMesh extends SkinnedMesh<BodyPartGeometry> {
 
     super(geometry, material);
 
-    this.add(geometry.baseBone);
-    this.bind(geometry.skeleton);
+    this.add(geometry.baseBone!);
+    this.bind(geometry.skeleton!);
   }
 
   setBendRotation(rotationValue: number) {
-    this.geometry.bendBone.rotation.x = rotationValue;
+    this.geometry.bendBone!.rotation.x = rotationValue;
     if (this.uniforms) {
       this.uniforms.bend.value = rotationValue;
     }
   }
 
   setBendAxisRotation(rotationValue: number) {
-    this.geometry.bendBone.rotation.z = rotationValue;
+    this.geometry.bendBone!.rotation.z = rotationValue;
     if (this.uniforms) {
       this.uniforms.bendAxis.value = rotationValue;
     }
