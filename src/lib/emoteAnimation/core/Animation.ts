@@ -10,6 +10,7 @@ import type {
   Update
 } from "@/emoteAnimation/types/animationJson";
 import {isRotationTransformDir} from "@/utils/typeGuards/isRotationTransformDir.ts";
+import type {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket.ts";
 
 const MOVE_PARTS: MovePart[] = ["head", "torso", "leftArm", "rightArm", "leftLeg", "rightLeg"];
 const LIMBS: Exclude<MovePart, "head" | "torso">[] = ["leftArm", "rightArm", "leftLeg", "rightLeg"];
@@ -139,6 +140,18 @@ export class Animation {
   }
 
   getUpdates(t: Tick): Update[] {
-    return this.tracks.map((track) => track.getUpdate(t)).flat();
+    const updates = [];
+
+    for (const track of this.tracks) {
+      updates.push(...track.getUpdates(t));
+    }
+
+    return updates;
+  }
+
+  collectUpdates(t: Tick, updBucket: UpdatesBucket<Update>) {
+    for (const track of this.tracks) {
+      track.collectUpdates(t, updBucket);
+    }
   }
 }

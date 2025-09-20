@@ -50,15 +50,13 @@ export class Channel {
 
       return {
         prev: kf[this.cursor],
-        next,
-      // @ts-ignore
-        spoil: true
+        next
       };
     }
 
     return {
       prev: kf[this.cursor],
-      next: kf[this.cursor + 1]
+      next: kf[this.cursor + 1] || null
     };
   }
 
