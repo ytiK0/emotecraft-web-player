@@ -4,7 +4,7 @@ import type {Pose} from "@/player";
 export const defaultPose: Pose = {
   torso: {
     rotation: new Euler(0, 0, 0),
-    position: new Vector3(0, 0, 0),
+    position: new Vector3(0, 12, 0),
   },
   torso_bend: {
     rotation: new Euler(0, 0, 0),
