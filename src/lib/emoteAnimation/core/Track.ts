@@ -6,7 +6,6 @@ import {Interpolator} from "@/emoteAnimation/core/Interpolator.ts";
 
 const TRANSFORMATION_DIR: TransformationDir[] = ["x", "y", "z", "pitch", "roll", "yaw"];
 
-
 export class Track {
   public readonly target: BodyPart;
   private channels: Channel[];
