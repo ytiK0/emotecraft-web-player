@@ -1,4 +1,4 @@
-import {BufferGeometry, Float32BufferAttribute, Vector2} from "three";
+import {Bone, BufferGeometry, Float32BufferAttribute, Skeleton, Uint8BufferAttribute, Vector2} from "three";
 
 const SKIN_TEXTURE_SIZE = 64;
 
@@ -6,19 +6,18 @@ export class BodyPartGeometry extends BufferGeometry{
   public readonly width: number;
   public readonly height: number;
   public readonly depth: number;
-  public readonly bendCount: number;
+  private readonly bendCount: number;
+  public readonly bendBone: Bone;
+  public readonly baseBone: Bone;
+  public readonly skeleton: Skeleton;
 
-  constructor(width: number, height: number, depth: number, partTextureStart: Vector2, bendCount = 1) {
-    if (bendCount <= 0) {
-      throw new Error(`Impossible to create geometry with ${bendCount} bends`);
-    }
-
+  constructor(width: number, height: number, depth: number, partTextureStart: Vector2, bendable = false) {
     super();
 
     this.width = width;
     this.height = height;
     this.depth = depth;
-    this.bendCount = bendCount;
+    this.bendCount = bendable ? 2 : 1;
 
     const verts = this._generateVerts();
     const indexes = this._generateIndexes();
@@ -28,6 +27,30 @@ export class BodyPartGeometry extends BufferGeometry{
     this.setAttribute("position", new Float32BufferAttribute(verts, 3));
     this.setAttribute("uv", new Float32BufferAttribute(uv, 2));
     this.computeVertexNormals();
+
+    if (bendable) {
+      const { skinIndexes, skinWeights, bendVerts } = this._generateSkinAttrs();
+
+      this.setAttribute("skinIndex", new Uint8BufferAttribute(skinIndexes, 4));
+      this.setAttribute("skinWeight", new Float32BufferAttribute(skinWeights, 4));
+      // indicates which verts should change position
+      this.setAttribute("bendVert", new Float32BufferAttribute(bendVerts, 1));
+
+      const bones: Bone[] = [];
+
+      const base = new Bone();
+      const bend = new Bone();
+
+      base.position.y = width / 2;
+      bend.position.y = -width / 2;
+
+      base.add(bend);
+      bones.push(base, bend);
+
+      this.skeleton = new Skeleton(bones);
+      this.baseBone = base;
+      this.bendBone = bend;
+    }
   }
 
   private _generateVerts() {
@@ -144,5 +167,32 @@ export class BodyPartGeometry extends BufferGeometry{
     }
 
     return uv;
+  }
+
+  private _generateSkinAttrs() {
+    // 3 vert per col + 4 vert per top/bot faces
+    const vertCount = 5 * 3 + 2 * 4;
+    const topStartVertIdx = 5 * 3;
+
+    const skinIndexes = [];
+    const skinWeights = [];
+    const bendVerts = [];
+
+    for (let vert = 0; vert < vertCount; vert++) {
+      skinWeights.push(1,0,0,0);
+      if (vert < topStartVertIdx && vert % 3 >= 2 || vert >= topStartVertIdx + 4) {
+        skinIndexes.push(1, 0, 0, 0);
+      } else {
+        skinIndexes.push(0, 0, 0, 0);
+      }
+
+      if (vert < topStartVertIdx && vert % 3 === 1) {
+        bendVerts.push(1);
+      } else {
+        bendVerts.push(0);
+      }
+    }
+
+    return { skinWeights, skinIndexes, bendVerts };
   }
 }
