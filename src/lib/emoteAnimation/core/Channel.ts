@@ -42,8 +42,18 @@ export class Channel {
       this.cursor++;
     }
 
-    while (this.cursor > 0 && t < kf[this.cursor].tick) {
-      this.cursor--;
+    if (this.cursor > 0 && t < kf[this.cursor].tick) {
+      const next = kf[this.cursor];
+      while (this.cursor > 0 && t < kf[this.cursor].tick) {
+        this.cursor--;
+      }
+
+      return {
+        prev: kf[this.cursor],
+        next,
+      // @ts-ignore
+        spoil: true
+      };
     }
 
     return {
