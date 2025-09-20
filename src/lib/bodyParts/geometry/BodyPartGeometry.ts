@@ -7,9 +7,9 @@ export class BodyPartGeometry extends BufferGeometry{
   public readonly height: number;
   public readonly depth: number;
   private readonly bendCount: number;
-  public readonly bendBone: Bone;
-  public readonly baseBone: Bone;
-  public readonly skeleton: Skeleton;
+  public readonly bendBone?: Bone;
+  public readonly baseBone?: Bone;
+  public readonly skeleton?: Skeleton;
 
   constructor(width: number, height: number, depth: number, partTextureStart: Vector2, bendable = false) {
     super();
