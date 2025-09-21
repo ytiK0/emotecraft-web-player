@@ -2,7 +2,6 @@ import {Timeline} from "@/emoteAnimation/core/Timeline.ts";
 import {Animation} from "@/emoteAnimation/core/Animation.ts";
 import type {PlayerModelMesh} from "@/player";
 import {MeshUpdater} from "@/emoteAnimation/core/MeshUpdater.ts";
-import type {Emote, Update} from "@/emoteAnimation/types/animationJson";
 import {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket.ts";
 
 export class EmoteAnimationPlayer {
@@ -54,7 +53,11 @@ export class EmoteAnimationPlayer {
       }
 
       this.animation.collectUpdates(t, this.updatesBucket);
-      this.meshUpdater.update();
+      try {
+        this.meshUpdater.update();
+      } catch {
+        this.updatesBucket.clear();
+      }
     }
   }
 }

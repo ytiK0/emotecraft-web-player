@@ -1,17 +1,21 @@
-import type {BodyPart} from "@/bodyParts/bodyPart";
 import {Channel} from "@/emoteAnimation/core/Channel.ts";
 import type {EmoteKeyframe} from "@/emoteAnimation/core/EmoteKeyframe.ts";
-import type {TransformationDir, Update} from "@/emoteAnimation/types/animationJson";
 import {Interpolator} from "@/emoteAnimation/core/Interpolator.ts";
 import type {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket.ts";
 
-const TRANSFORMATION_DIR: TransformationDir[] = ["x", "y", "z", "pitch", "roll", "yaw"];
+const TRANSFORMATION_DIR: MoveTransformationDir[] = [
+  "x", "y", "z",
+  "pitch", "roll", "yaw",
+  "scaleX", "scaleY", "scaleZ",
+  "bend", "axis"
+];
+
 
 export class Track {
-  public readonly target: BodyPart;
-  private channels: Channel[];
+  public readonly target: MovePart;
+  private readonly channels: Channel[];
 
-  constructor(target: BodyPart, keyframes: EmoteKeyframe[]) {
+  constructor(target: MovePart, keyframes: EmoteKeyframe[]) {
     this.target = target;
     this.channels = TRANSFORMATION_DIR.map((dir) => new Channel(dir, keyframes));
   }

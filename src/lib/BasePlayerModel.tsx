@@ -1,10 +1,10 @@
 import {Head, LeftArm, LeftLeg, RightArm, RightLeg, Torso, TorsoBend} from "@/bodyParts";
 import {defaultPose} from "@/defaults.ts";
-import type {Mesh} from "three";
-import {forwardRef, useCallback, useImperativeHandle, useRef} from "react";
+import {forwardRef, useCallback, useEffect, useImperativeHandle, useRef} from "react";
 import {warn} from "@/utils/warn.ts";
-import type {PlayerModelMesh, Pose} from "@/player";
+import type {BodyPartRepresentation, PlayerModelMesh, Pose} from "@/player";
 import {SkinMaterialProvider} from "@/contexts/SkinMaterial";
+import {useCubedBend} from "@/hooks/useCubedBend.ts";
 
 interface PlayerModelProps {
   pose?: Pose;
@@ -20,9 +20,9 @@ export const BasePlayerModel = forwardRef<PlayerModelMesh>(({ pose }: PlayerMode
     rightLeg
   } = pose || defaultPose;
 
-  const meshes = useRef<Partial<PlayerModelMesh> & Record<string, Mesh>>({});
+  const meshes = useRef<Partial<PlayerModelMesh> & Record<string, BodyPartRepresentation>>({});
 
-  const setMeshRef = useCallback((mesh: Mesh) => {
+  const setRepresentationRef = useCallback((mesh: BodyPartRepresentation) => {
     if (mesh) {
       if (mesh.name === "") {
         warn(`${mesh.uuid} mesh does not have name, it will not assign in ref, set name or remove from scene`);
@@ -33,29 +33,39 @@ export const BasePlayerModel = forwardRef<PlayerModelMesh>(({ pose }: PlayerMode
       } else {
         meshes.current[mesh.name] = mesh;
 
-        const onRemove = () => {
-          delete meshes.current[mesh.name];
-          mesh.removeEventListener("removed", onRemove);
-        };
-
-        mesh.addEventListener("removed", onRemove);
+        // const onRemove = () => {
+        //   delete meshes.current[mesh.name];
+        //   mesh.removeEventListener("removed", onRemove);
+        // };
+        //
+        // mesh.addEventListener("removed", onRemove);
       }
     }
   }, []);
 
   useImperativeHandle(ref, () => meshes.current as PlayerModelMesh);
 
+  const torsoRepresentationRef = useRef<BodyPartRepresentation>(null);
+
+  const { baseRef, bendRef } = useCubedBend(torsoRepresentationRef);
+
+  useEffect(() => {
+    if (torsoRepresentationRef.current) {
+      meshes.current["torso"] = torsoRepresentationRef.current;
+    }
+  }, []);
+
   return (
     <SkinMaterialProvider skinSrc={"/skin.png"}>
-      <Torso ref={setMeshRef} name={"torso"} {...torso}>
-        <TorsoBend ref={setMeshRef} name={"torso_bend"} {...torso_bend}>
-          <Head ref={setMeshRef} name={"head"} {...head} />
-          <LeftArm ref={setMeshRef} name={"leftArm"} {...leftArm} />
-          <RightArm ref={setMeshRef} name={"rightArm"} {...rightArm} />
+      <Torso ref={baseRef} name={"torso"} debug {...torso}>
+        <TorsoBend ref={bendRef} name={"torso_bend"} debug {...torso_bend}>
+          <Head ref={setRepresentationRef} name={"head"} debug {...head} />
+          <LeftArm ref={setRepresentationRef} name={"leftArm"} debug {...leftArm} />
+          <RightArm ref={setRepresentationRef} name={"rightArm"} debug {...rightArm} />
         </TorsoBend>
 
-        <LeftLeg ref={setMeshRef} name={"leftLeg"} {...leftLeg} />
-        <RightLeg ref={setMeshRef} name={"rightLeg"} {...rightLeg} />
+        <LeftLeg ref={setRepresentationRef} name={"leftLeg"} debug {...leftLeg} />
+        <RightLeg ref={setRepresentationRef} name={"rightLeg"} debug {...rightLeg} />
       </Torso>
     </SkinMaterialProvider>
   );

@@ -1,5 +1,15 @@
 import type {BodyPart, BodyPartProps} from "@/bodyParts/bodyPart";
-import type {Mesh} from "three";
+import {type Euler, type Vector3} from "three";
 
-type Pose = Partial<Record<BodyPart, BodyPartProps>>;
-type PlayerModelMesh = Record<BodyPart, Mesh>
+type Pose = Partial<Record<BodyPart, Omit<BodyPartProps, "name">>>;
+
+interface BodyPartRepresentation {
+  name: string,
+  uuid: string,
+  position: Vector3,
+  rotation: Euler,
+  scale: Vector3,
+  bendRotation?: Euler,
+}
+
+type PlayerModelMesh = Record<MovePart, BodyPartRepresentation>;
