@@ -1,36 +1,23 @@
-import type {EmoteKeyframe} from "@/emoteAnimation/core/EmoteKeyframe.ts";
-import type {KeyframePair, RotationTransformationDir, TransformationDir} from "@/emoteAnimation/types/animationJson";
-
-const rotationMap = {
-  "pitch": "x",
-  "roll": "z",
-  "yaw": "y",
-} as const;
-
-function isRotationTransformDir(dir: TransformationDir): dir is RotationTransformationDir {
-  return dir.length > 1;
-}
+import {getTransformTypeAndAxisByTransformDir} from "@/utils/getTransformTypeAndAxisByTransformDir.ts";
 
 export class Channel {
-  public readonly axis: "x" | "y" | "z";
-  public readonly transformType: "position" | "rotation";
-  private readonly keyframes: EmoteKeyframe[] = [];
+  public readonly axis: Axis;
+  public readonly transformType: TransformationType;
+  private readonly keyframes: IEmoteKeyframe[] = [];
   private cursor = 0;
 
-  constructor(transformationDir: TransformationDir, keyframes: EmoteKeyframe[]) {
-    this.transformType = "position";
-    if (isRotationTransformDir(transformationDir)) {
-      this.transformType = "rotation";
-      transformationDir = rotationMap[transformationDir];
-    }
+  constructor(transformationDir: MoveTransformationDir, keyframes: IEmoteKeyframe[]) {
+    const { axis, transformType} = getTransformTypeAndAxisByTransformDir(transformationDir);
 
-    this.axis = transformationDir;
+    this.transformType = transformType;
+    this.axis = axis;
+
     this.keyframes.push({
       tick: 0,
       easing: keyframes[0]?.easing || "LINEAR",
+      value: 0,
       axis: this.axis,
       transformType: this.transformType,
-      value: 0,
     });
     this.keyframes.push(...keyframes.filter((kf) => kf.transformType === this.transformType && kf.axis === this.axis));
   }
