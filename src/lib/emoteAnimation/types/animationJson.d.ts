@@ -1,11 +1,15 @@
-import type {BodyPart} from "@/bodyParts/bodyPart";
-
 type MovePart = "head" | "torso" | "leftLeg" | "rightLeg" | "leftArm" | "rightArm";
 
-type PositionTransformationDir = "x" | "y" | "z";
-type RotationTransformationDir = "pitch" | "yaw" | "roll";
-type TransformationDir = PositionTransformationDir | RotationTransformationDir;
+type Axis = "x" | "y" | "z"
 
+type PositionTransformationDir = Axis;
+type RotationTransformationDir = "pitch" | "yaw" | "roll";
+type ScaleTransformationDir = "scaleX" | "scaleY" |"scaleZ";
+type BendTransformationDir = "bend" | "axis";
+type TransformationDir = PositionTransformationDir | RotationTransformationDir | ScaleTransformationDir;
+type MoveTransformationDir = TransformationDir | BendTransformationDir
+
+type TransformationType = "position" | "rotation" | "scale" | "bend";
 
 type MoveBase = {
   tick: number,
@@ -14,7 +18,7 @@ type MoveBase = {
 }
 
 type EmoteTransformation = {
-  [V in (TransformationDir | "bend")]?: number
+  [V in (MoveTransformationDir)]?: number
 }
 
 type MoveData = {
@@ -53,8 +57,8 @@ type IEmoteKeyframe = {
   tick: number,
   easing: string,
   value: number,
-  axis: "x" | "y" | "z",
-  transformType: "position" | "rotation",
+  axis: Axis,
+  transformType: TransformationType,
 }
 
 type KeyframePair = {
@@ -64,7 +68,7 @@ type KeyframePair = {
 
 type Update = {
   axis: PositionTransformationDir,
-  transformType: "position" | "rotation",
-  target: BodyPart,
+  transformType: TransformationType,
+  target: MovePart,
   value: number
 }
