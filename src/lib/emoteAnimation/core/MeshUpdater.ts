@@ -1,6 +1,4 @@
 import type {PlayerModelMesh} from "@/player";
-import type {Update} from "@/emoteAnimation/types/animationJson";
-import type {BodyPart} from "@/bodyParts/bodyPart";
 import {warn} from "@/utils/warn.ts";
 import type {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket.ts";
 
@@ -30,11 +28,17 @@ export class MeshUpdater {
 
     const rotation = mesh.rotation;
     const position = mesh.position;
+    const bend = mesh.bendRotation;
+    const scale = mesh.scale;
 
     if (transformType === "rotation") {
       rotation[axis] = value;
-    } else {
+    } else if (transformType === "position") {
       position[axis] = value * POSITION_RATIO;
+    } else if (transformType === "scale") {
+      scale[axis] = value;
+    } else if (bend) {
+      bend[axis] = value;
     }
   }
 
@@ -49,7 +53,10 @@ export class MeshUpdater {
 
   reset() {
     for (const part in this.playerMesh) {
-      const mesh = this.playerMesh[part as BodyPart];
+      const mesh = this.playerMesh[part as keyof PlayerModelMesh];
+      if (mesh === undefined) {
+        continue;
+      }
       mesh.position.multiplyScalar(0);
       mesh.rotation.set(0,0,0);
     }
