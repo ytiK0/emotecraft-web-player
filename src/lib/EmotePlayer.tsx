@@ -1,41 +1,12 @@
 import {BasePlayerModel} from "@/BasePlayerModel.tsx";
-import {useEffect, useRef, useState} from "react";
-import type {PlayerModelMesh} from "@/player";
-import type {Emote} from "@/emoteAnimation/types/animationJson";
-import {EmoteAnimationPlayer} from "@/emoteAnimation/EmoteAnimationPlayer.ts";
-import {useFrame} from "@react-three/fiber";
+import {useEffect} from "react";
 import {Euler} from "three";
+import {useEmotePlayer} from "@/hooks/useEmotePlayer.ts";
 
 Euler.DEFAULT_ORDER = "ZYX" as "XYZ";
 
 export default function EmotePlayer({ emote }: { emote: Emote }) {
-  const playerModelRef = useRef<PlayerModelMesh>(null);
-  const [player, setPlayer] = useState<EmoteAnimationPlayer | null>(null);
-
-
-  useFrame((_, delta) => {
-    delta *= 1;
-    if (player) {
-      player.update(delta as Second);
-    }
-  });
-
-  useEffect(() => {
-    if (player) {
-      player.restart();
-      player.playEmote(emote);
-      // @ts-ignore only for dev
-      window.anim = player.animation;
-    }
-  }, [emote, player]);
-
-  useEffect(() => {
-    if (playerModelRef.current) {
-      setPlayer(new EmoteAnimationPlayer(playerModelRef.current));
-      // @ts-ignore only for dev
-      window.mesh = playerModelRef.current;
-    }
-  }, []);
+  const [player, modelRef] = useEmotePlayer(emote);
 
   useEffect(() => {
     const toggle = (ev: KeyboardEvent) => {
@@ -52,6 +23,6 @@ export default function EmotePlayer({ emote }: { emote: Emote }) {
   }, [player]);
 
   return (
-    <BasePlayerModel ref={playerModelRef} />
+    <BasePlayerModel ref={modelRef} />
   );
 }
