@@ -1,18 +1,15 @@
 import {Track} from "@/emoteAnimation/core/Track.ts";
-import {MOVE_TRANSFORMS_DIR, POSITION_TRANSFORMS_DIR} from "@/emoteAnimation/constants";
+import {
+  MOVE_TRANSFORMS_DIR,
+  MOVE_TRANSFORMS_DIR_WITH_BENDING,
+  POSITION_TRANSFORMS_DIR
+} from "@/emoteAnimation/constants";
 import {EmoteKeyframe} from "@/emoteAnimation/core/EmoteKeyframe.ts";
-import type {
-  EmoteMeta,
-  Move,
-  MovePart,
-  PositionTransformationDir,
-  TransformationDir,
-  Update
-} from "@/emoteAnimation/types/animationJson";
 import {isRotationTransformDir} from "@/utils/typeGuards/isRotationTransformDir.ts";
 import type {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket.ts";
+import {isScaleTransformationDir} from "@/utils/typeGuards/isScaleTransformationDir.ts";
 
-const MOVE_PARTS: MovePart[] = ["head", "torso", "leftArm", "rightArm", "leftLeg", "rightLeg"];
+const MOVE_PARTS: MovePart[] = ["head", "torso", "leftArm", "rightArm", "leftLeg", "rightLeg"] as const;
 const LIMBS: Exclude<MovePart, "head" | "torso">[] = ["leftArm", "rightArm", "leftLeg", "rightLeg"];
 
 const limbAdaptation: Record<Exclude<MovePart, "head" | "torso">, Record<PositionTransformationDir, number>> = {
@@ -77,7 +74,7 @@ function adaptMove(move: Move) {
           ) {
             applyMutate(part, dir, -1, "mlt");
           }
-        } else {
+        } else if (!isScaleTransformationDir(dir)) {
           // position transformation
           if (part === "torso") {
             const changeVal = dir === "z" ? -4 : 4;
@@ -108,35 +105,29 @@ export class Animation {
     this.endTick = emoteMeta.endTick as Tick;
     this.returnTick = emoteMeta.returnTick as Tick;
     this.moves = emoteMeta.moves.map(adaptMove);
+
     for (const movePart of MOVE_PARTS) {
-      const { base, bend } = this.generateKeyframes(movePart);
-      this.tracks.push(new Track(movePart, base));
-      if (movePart !== "head") {
-        this.tracks.push(new Track(`${movePart}_bend`, bend));
-      }
+      const keyframes = this.generateKeyframes(movePart);
+      this.tracks.push(new Track(movePart, keyframes));
     }
   }
 
-  private generateKeyframes(target: MovePart): { base: EmoteKeyframe[], bend: EmoteKeyframe[] } {
+  private generateKeyframes(target: MovePart): EmoteKeyframe[] {
     const moves = this.moves;
-    const base: EmoteKeyframe[] = [];
-    const bend: EmoteKeyframe[] = [];
+    const keyframes: EmoteKeyframe[] = [];
 
     for (const move of moves) {
       if (move[target] !== undefined) {
         const transform = move[target];
-        if (transform.bend !== undefined) {
-          bend.push(new EmoteKeyframe(move, target, "bend"));
-        }
-        for (const dir of MOVE_TRANSFORMS_DIR) {
-          if (transform[dir as TransformationDir] !== undefined) {
-            base.push(new EmoteKeyframe(move, target, dir));
+        for (const dir of MOVE_TRANSFORMS_DIR_WITH_BENDING) {
+          if (transform[dir] !== undefined) {
+            keyframes.push(new EmoteKeyframe(move, target, dir));
           }
         }
       }
     }
 
-    return { base, bend };
+    return keyframes;
   }
 
   getUpdates(t: Tick): Update[] {
