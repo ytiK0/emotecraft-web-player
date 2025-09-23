@@ -1,9 +1,9 @@
-import type {Euler, Vector3, Vector3Tuple} from "three";
+import type {Euler, Vector3} from "three";
 import type {ReactNode} from "react";
 
 type BodyPartProps = {
   name: BodyPart | string;
-  position?: Vector3 | Vector3Tuple;
+  position?: Vector3;
   rotation?: Euler;
   debug?: boolean;
   children?: ReactNode;
