@@ -1,13 +1,13 @@
 import {type ForwardedRef, useImperativeHandle, useRef} from "react";
 import type {Mesh} from "three";
-import type {BodyPartRepresentation} from "@/player";
+import type {DisposableBodyPartRepresentation} from "@/types/playerModel";
 
 /**
  * Bind to passed ref built BodyPartRepresentation, to work correctly you should bind both output refs
  * to your body part meshes
  * @param ref
  */
-export function useCubedBend(ref: ForwardedRef<BodyPartRepresentation | undefined>) {
+export function useCubedLimb(ref: ForwardedRef<DisposableBodyPartRepresentation | undefined>) {
   const baseRef = useRef<Mesh>(null);
   const bendRef = useRef<Mesh>(null);
 
@@ -19,7 +19,7 @@ export function useCubedBend(ref: ForwardedRef<BodyPartRepresentation | undefine
     const base = baseRef.current;
     const bend = bendRef.current;
 
-    return {
+    const representation = {
       name: base.name,
       uuid: base.uuid,
       position: base.position,
@@ -27,6 +27,8 @@ export function useCubedBend(ref: ForwardedRef<BodyPartRepresentation | undefine
       scale: base.scale,
       bendRotation: bend.rotation,
     };
+
+    return { representation, bindMeshes: [base, bend] };
   });
 
   return { baseRef, bendRef };

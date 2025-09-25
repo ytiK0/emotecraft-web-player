@@ -11,7 +11,7 @@ export class BodyPartGeometry extends BufferGeometry{
   public readonly baseBone?: Bone;
   public readonly skeleton?: Skeleton;
 
-  constructor(width: number, height: number, depth: number, partTextureStart: Vector2, bendable = false) {
+  constructor(width: number, height: number, depth: number, partTextureStart: Vector2, bendable = false, bendDirection: "bottom" | "top" = "bottom") {
     super();
 
     this.width = width;
@@ -26,10 +26,10 @@ export class BodyPartGeometry extends BufferGeometry{
     this.setIndex(indexes);
     this.setAttribute("position", new Float32BufferAttribute(verts, 3));
     this.setAttribute("uv", new Float32BufferAttribute(uv, 2));
-    this.computeVertexNormals();
+    // this.computeVertexNormals();
 
     if (bendable) {
-      const { skinIndexes, skinWeights, bendVerts } = this._generateSkinAttrs();
+      const { skinIndexes, skinWeights, bendVerts } = this._generateSkinAttrs(bendDirection);
 
       this.setAttribute("skinIndex", new Uint8BufferAttribute(skinIndexes, 4));
       this.setAttribute("skinWeight", new Float32BufferAttribute(skinWeights, 4));
@@ -108,7 +108,7 @@ export class BodyPartGeometry extends BufferGeometry{
       const opposite = next + 1;
       indexes.push(
         under, next, v,
-        under, opposite, next
+        under, opposite, next,
       );
     }
 
@@ -139,12 +139,12 @@ export class BodyPartGeometry extends BufferGeometry{
     const sidesDu = [0, this.depth, this.width, this.depth, this.width];
 
     let curX = start.x;
-    let curY = start.y - this.depth;
+    let curY = start.y - Number(this.depth.toFixed(2));
 
     for (const du of sidesDu) {
       for (let s = 0; s <= this.bendCount; s++) {
         const dv = s * bendHeight;
-        const v = (curX + du) * normalizeScale;
+        const v = (curX + du - 0.1) * normalizeScale;
         const u = (curY - dv) * normalizeScale;
         uv.push(v, u);
       }
@@ -157,8 +157,10 @@ export class BodyPartGeometry extends BufferGeometry{
     const topDu = [0, this.width, this.width, this.width];
     let idx = 0;
     for (const du of topDu) {
-      uv.push((curX + du) * normalizeScale, curY * normalizeScale);
-      uv.push((curX + du) * normalizeScale, (curY - this.depth) * normalizeScale);
+      const fix = idx % 2 === 0 ? 0 : -0.022;
+
+      uv.push((curX + du + fix) * normalizeScale, (curY -0.01) * normalizeScale);
+      uv.push((curX + du + fix) * normalizeScale, (curY - this.depth + 0.01) * normalizeScale);
 
       if (idx % 2 === 0) {
         curX += du;
@@ -166,10 +168,13 @@ export class BodyPartGeometry extends BufferGeometry{
       idx++;
     }
 
+    // if (uv.find((uv) => uv >= 1 || uv <= 0))
+      console.log(uv);
+
     return uv;
   }
 
-  private _generateSkinAttrs() {
+  private _generateSkinAttrs(bendDirection: "bottom" | "top") {
     // 3 vert per col + 4 vert per top/bot faces
     const vertCount = 5 * 3 + 2 * 4;
     const topStartVertIdx = 5 * 3;
@@ -180,10 +185,17 @@ export class BodyPartGeometry extends BufferGeometry{
 
     for (let vert = 0; vert < vertCount; vert++) {
       skinWeights.push(1,0,0,0);
-      if (vert < topStartVertIdx && vert % 3 >= 2 || vert >= topStartVertIdx + 4) {
-        skinIndexes.push(1, 0, 0, 0);
+
+      const isSidesVert = vert < topStartVertIdx;
+      const isBottomVert = vert >= topStartVertIdx + 4;
+      const isTopVert = !isSidesVert && !isBottomVert;
+
+      if (bendDirection === "bottom" && (isSidesVert && vert % 3 >= 2 || isBottomVert)) {
+        skinIndexes.push(1,0,0,0);
+      } else if (bendDirection === "top" && (isSidesVert && vert % 3 < 2 || isTopVert)) {
+        skinIndexes.push(1,0,0,0);
       } else {
-        skinIndexes.push(0, 0, 0, 0);
+        skinIndexes.push(0,0,0,0);
       }
 
       if (vert < topStartVertIdx && vert % 3 === 1) {

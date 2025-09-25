@@ -1,9 +1,9 @@
 import {Vector2, Vector3, type Vector3Tuple} from "three";
 import {forwardRef} from "react";
-import type {BodyPartProps} from "@/bodyParts/bodyPart";
-import {BodyPartBase} from "@/bodyParts/BodyPartBase.tsx";
-import type {BodyPartRepresentation} from "@/player";
-import {useCubedBend} from "@/hooks/useCubedBend.ts";
+import type {BodyPartProps} from "@/bodyParts/types/bodyPart";
+import {BodyPartBase} from "@/bodyParts/chained/BodyPartBase.tsx";
+import type {DisposableBodyPartRepresentation} from "@/types/playerModel";
+import {useCubedLimb} from "@/hooks/useCubedLimb.ts";
 
 const ARM_SIZE = [4, 6, 4] as Vector3Tuple;
 const ARM_BEND_SIZE = ARM_SIZE.map((val) => val - 0.01) as Vector3Tuple;
@@ -13,8 +13,8 @@ const LEFT_BEND_POSITION = new Vector3(1, -4, 0);
 const LEFT_ARM_PIVOT_POINT_SHIFT = new Vector3(1, -1, 0);
 const LEFT_ARM_TEXTURE_START = new Vector2(32, 64 - 16);
 const LEFT_ARM_BEND_TEXTURE_START = new Vector2(32, 64 - 10);
-export const LeftArm = forwardRef<BodyPartRepresentation | undefined, BodyPartProps>(({children, name, debug, position}: BodyPartProps, ref) => {
-  const { baseRef, bendRef } = useCubedBend(ref);
+export const LeftArm = forwardRef<DisposableBodyPartRepresentation | undefined, BodyPartProps>(({children, name, debug, position}: BodyPartProps, ref) => {
+  const { baseRef, bendRef } = useCubedLimb(ref);
 
   return (
     <BodyPartBase
@@ -46,8 +46,8 @@ const RIGHT_BEND_POSITION = new Vector3(-1, -4, 0);
 const RIGHT_ARM_PIVOT_POINT_SHIFT = new Vector3(-1, -1, 0);
 const RIGHT_ARM_TEXTURE_START = new Vector2(32 + 8,16);
 const RIGHT_ARM_BEND_TEXTURE_START = new Vector2(32 + 8,16 + 6);
-export const RightArm = forwardRef<BodyPartRepresentation | undefined, BodyPartProps>(({children, name, debug, position}: BodyPartProps, ref) => {
-  const { baseRef, bendRef } = useCubedBend(ref);
+export const RightArm = forwardRef<DisposableBodyPartRepresentation | undefined, BodyPartProps>(({children, name, debug, position}: BodyPartProps, ref) => {
+  const { baseRef, bendRef } = useCubedLimb(ref);
 
   return (
     <BodyPartBase

@@ -1,6 +1,6 @@
 import {Timeline} from "@/emoteAnimation/core/Timeline.ts";
 import {Animation} from "@/emoteAnimation/core/Animation.ts";
-import type {PlayerModelMesh} from "@/player";
+import type {PlayerModelMesh} from "@/types/playerModel";
 import {MeshUpdater} from "@/emoteAnimation/core/MeshUpdater.ts";
 import {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket.ts";
 

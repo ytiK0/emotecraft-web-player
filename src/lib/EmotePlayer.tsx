@@ -1,11 +1,18 @@
-import {BasePlayerModel} from "@/BasePlayerModel.tsx";
 import {useEffect} from "react";
-import {Euler} from "three";
+import {Euler, type Vector3} from "three";
 import {useEmotePlayer} from "@/hooks/useEmotePlayer.ts";
+import {BendablePlayerModel} from "@/BendablePlayerModel.tsx";
+import {ChainedPlayerModel} from "@/ChainedPlayerModel.tsx";
 
 Euler.DEFAULT_ORDER = "ZYX" as "XYZ";
 
-export default function EmotePlayer({ emote }: { emote: Emote }) {
+type EmotePlayerProps = {
+  emote: Emote,
+  playerModelPosition?: Vector3,
+  playerModelType: "bend" | "chain"
+}
+
+export default function EmotePlayer({emote, playerModelPosition, playerModelType}: EmotePlayerProps) {
   const [player, modelRef] = useEmotePlayer(emote);
 
   useEffect(() => {
@@ -22,7 +29,9 @@ export default function EmotePlayer({ emote }: { emote: Emote }) {
     return () => window.removeEventListener("keydown", toggle);
   }, [player]);
 
-  return (
-    <BasePlayerModel ref={modelRef} />
-  );
+  if (playerModelType === "bend") {
+    return <BendablePlayerModel position={playerModelPosition} ref={modelRef} />;
+  } else {
+    return <ChainedPlayerModel position={playerModelPosition} ref={modelRef} />;
+  }
 }

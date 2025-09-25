@@ -1,12 +1,19 @@
-import type {Euler, Vector3, Vector3Tuple} from "three";
+import type {Euler, Vector2, Vector3, Vector3Tuple} from "three";
 import type {ReactNode} from "react";
 
 type BodyPartProps = {
   name: BodyPart | string;
-  position?: Vector3 | Vector3Tuple;
+  position?: Vector3;
   rotation?: Euler;
   debug?: boolean;
   children?: ReactNode;
+}
+
+type BodyPartBaseProps = BodyPartProps & {
+  pivotShift: Vector3 | Vector3Tuple,
+  partSize: Vector3Tuple,
+  textureStart: Vector2,
+  children?: ReactNode
 }
 
 type BodyParts = "head" | "torso" | "leftArm" | "rightArm" | "leftLeg" | "rightLeg";

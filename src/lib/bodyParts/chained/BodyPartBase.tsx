@@ -1,18 +1,9 @@
-import {forwardRef, type ReactNode, useMemo} from "react";
+import {forwardRef, useMemo} from "react";
 import DebugSphere from "@/utils/DebugSphere.tsx";
-import {Mesh, type Vector2, type Vector3, type Vector3Tuple} from "three";
+import {Mesh} from "three";
 import {useSkinMaterial} from "@/contexts/SkinMaterial";
-import {BodyPartGeometry} from "@/bodyParts/geometry/BodyPartGeometry.ts";
-
-type BodyPartBaseProps = {
-  pivotShift: Vector3 | Vector3Tuple,
-  partSize: Vector3Tuple,
-  textureStart: Vector2,
-  name?: string,
-  debug?: boolean,
-  children?: ReactNode,
-  position?: Vector3 | Vector3Tuple;
-}
+import {BodyPartGeometry} from "@/bodyParts/base/BodyPartGeometry.ts";
+import type {BodyPartBaseProps} from "@/bodyParts/types/bodyPart";
 
 export const BodyPartBase = forwardRef<Mesh, BodyPartBaseProps>(({
   pivotShift,
@@ -22,7 +13,7 @@ export const BodyPartBase = forwardRef<Mesh, BodyPartBaseProps>(({
   debug,
   children,
   position
-}: BodyPartBaseProps, ref) => {
+}, ref) => {
   const skinMaterial = useSkinMaterial();
   const geometry = useMemo(() => new BodyPartGeometry(...partSize, textureStart), [partSize, textureStart]);
 
