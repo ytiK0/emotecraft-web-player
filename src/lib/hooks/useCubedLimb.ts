@@ -1,6 +1,6 @@
 import {type ForwardedRef, useImperativeHandle, useRef} from "react";
 import type {Mesh} from "three";
-import type {DisposableBodyPartRepresentation} from "@/player";
+import type {DisposableBodyPartRepresentation} from "@/types/playerModel";
 
 /**
  * Bind to passed ref built BodyPartRepresentation, to work correctly you should bind both output refs
