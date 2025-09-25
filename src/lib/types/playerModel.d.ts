@@ -1,4 +1,4 @@
-import type {BodyPart, BodyPartProps} from "@/bodyParts/bodyPart";
+import type {BodyPart, BodyPartProps} from "@/bodyParts/types/bodyPart";
 import type {Euler, Mesh, Vector3} from "three";
 
 type Pose = Partial<Record<BodyPart, Omit<BodyPartProps, "name">>>;

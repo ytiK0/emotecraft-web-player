@@ -1,4 +1,4 @@
-import type {PlayerModelMesh} from "@/player";
+import type {PlayerModelMesh} from "@/types/playerModel";
 import {warn} from "@/utils/warn.ts";
 import type {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket.ts";
 
