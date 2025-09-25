@@ -1,8 +1,8 @@
 import {Vector2, Vector3, type Vector3Tuple} from "three";
 import {forwardRef} from "react";
-import type {BodyPartProps} from "@/bodyParts/bodyPart";
-import {BodyPartBase} from "@/bodyParts/BodyPartBase.tsx";
-import type {DisposableBodyPartRepresentation} from "@/player";
+import type {BodyPartProps} from "@/bodyParts/types/bodyPart";
+import {BodyPartBase} from "@/bodyParts/chained/BodyPartBase.tsx";
+import type {DisposableBodyPartRepresentation} from "@/types/playerModel";
 import {useCubedLimb} from "@/hooks/useCubedLimb.ts";
 
 const ARM_SIZE = [4, 6, 4] as Vector3Tuple;

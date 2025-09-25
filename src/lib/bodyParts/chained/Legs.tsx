@@ -1,9 +1,9 @@
 import {Vector2, Vector3, type Vector3Tuple} from "three";
 import {forwardRef} from "react";
-import type {BodyPartProps} from "@/bodyParts/bodyPart";
-import {BodyPartBase} from "@/bodyParts/BodyPartBase.tsx";
+import type {BodyPartProps} from "@/bodyParts/types/bodyPart";
+import {BodyPartBase} from "@/bodyParts/chained/BodyPartBase.tsx";
 import {useCubedLimb} from "@/hooks/useCubedLimb.ts";
-import type {DisposableBodyPartRepresentation} from "@/player";
+import type {DisposableBodyPartRepresentation} from "@/types/playerModel";
 
 const LEG_SIZE = [4, 6, 4] as Vector3Tuple;
 const LEG_BEND_SIZE = LEG_SIZE.map((val) => val - 0.01) as Vector3Tuple;

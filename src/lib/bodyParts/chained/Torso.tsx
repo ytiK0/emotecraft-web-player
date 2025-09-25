@@ -1,6 +1,6 @@
 import {forwardRef} from "react";
-import type {BodyPartProps} from "@/bodyParts/bodyPart";
-import {BodyPartBase} from "@/bodyParts/BodyPartBase.tsx";
+import type {BodyPartProps} from "@/bodyParts/types/bodyPart";
+import {BodyPartBase} from "@/bodyParts/chained/BodyPartBase.tsx";
 import {type Mesh, Vector2, Vector3, type Vector3Tuple} from "three";
 
 const TORSO_SIZE = [8, 6, 4] as Vector3Tuple;
