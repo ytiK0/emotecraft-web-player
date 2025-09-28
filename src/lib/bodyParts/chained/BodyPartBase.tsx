@@ -8,14 +8,14 @@ import type {BodyPartBaseProps} from "@/bodyParts/types/bodyPart";
 export const BodyPartBase = forwardRef<Mesh, BodyPartBaseProps>(({
   pivotShift,
   partSize,
-  textureStart,
+  textureConfig,
   name,
   debug,
   children,
   position
 }, ref) => {
   const skinMaterial = useSkinMaterial();
-  const geometry = useMemo(() => new BodyPartGeometry(...partSize, textureStart), [partSize, textureStart]);
+  const geometry = useMemo(() => new BodyPartGeometry(...partSize, textureConfig), [partSize, textureConfig]);
 
   return (
     <group name={`${name}_P`} position={position}>

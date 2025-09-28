@@ -14,14 +14,14 @@ type BendableBodyPartBasePops = BodyPartBaseProps & {
 export const BendableBodyPartBase = forwardRef<DisposableBodyPartRepresentation | undefined, BendableBodyPartBasePops>(({
   pivotShift,
   partSize,
-  textureStart,
+  textureConfig,
   name,
   debug,
   children,
   position, bendChildren, bendDirection
 }, ref) => {
   const skinMaterial = useSkinMaterial();
-  const bodyPartMesh = useMemo(() => new BendableBodyPartMesh(...partSize, textureStart, bendDirection || "bottom", skinMaterial), [bendDirection, partSize, skinMaterial, textureStart]);
+  const bodyPartMesh = useMemo(() => new BendableBodyPartMesh(...partSize, textureConfig, bendDirection || "bottom", skinMaterial), [bendDirection, partSize, skinMaterial, textureConfig]);
 
   bodyPartMesh.name = name;
 

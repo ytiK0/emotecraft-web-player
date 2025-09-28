@@ -1,4 +1,11 @@
-import {Bone, BufferGeometry, Float32BufferAttribute, Skeleton, Uint8BufferAttribute, Vector2} from "three";
+import {
+  Bone,
+  BufferGeometry,
+  Float32BufferAttribute,
+  Skeleton,
+  Uint8BufferAttribute, Vector3
+} from "three";
+import type {TextureConfig} from "@/bodyParts";
 
 const SKIN_TEXTURE_SIZE = 64;
 
@@ -11,7 +18,7 @@ export class BodyPartGeometry extends BufferGeometry{
   public readonly baseBone?: Bone;
   public readonly skeleton?: Skeleton;
 
-  constructor(width: number, height: number, depth: number, partTextureStart: Vector2, bendable = false, bendDirection: "bottom" | "top" = "bottom") {
+  constructor(width: number, height: number, depth: number, textureConfig: TextureConfig, bendable = false, bendDirection: "bottom" | "top" = "bottom") {
     super();
 
     this.width = width;
@@ -21,7 +28,7 @@ export class BodyPartGeometry extends BufferGeometry{
 
     const verts = this._generateVerts();
     const indexes = this._generateIndexes();
-    const uv = this._generateUV(partTextureStart);
+    const uv = this._generateUV(textureConfig);
 
     this.setIndex(indexes);
     this.setAttribute("position", new Float32BufferAttribute(verts, 3));
@@ -127,49 +134,53 @@ export class BodyPartGeometry extends BufferGeometry{
     return indexes;
   }
 
-  private _generateUV(textureStart: Vector2) {
+  private _generateUV(textureConfig: TextureConfig) {
+    const { textureStart, sidesStart } = textureConfig;
+    const textureSizes = textureConfig.textureSizes || new Vector3(this.width, this.height, this.depth);
+
     const normalizeScale = 1 / SKIN_TEXTURE_SIZE;
 
-    const bendHeight = this.height / this.bendCount;
+    const bendHeight = textureSizes.y / this.bendCount;
     const uv: number[] = [];
 
     const start = textureStart.clone();
     start.y = SKIN_TEXTURE_SIZE - start.y;
 
-    const sidesDu = [0, this.depth, this.width, this.depth, this.width];
+    const sidesDu = [0, textureSizes.z, textureSizes.x, textureSizes.z, textureSizes.x];
 
     let curX = start.x;
-    let curY = start.y - Number(this.depth.toFixed(2));
+    let curY = start.y - textureSizes.z;
+    if (sidesStart) {
+      curX = sidesStart.x;
+      curY = SKIN_TEXTURE_SIZE - sidesStart.y;
+    }
 
     for (const du of sidesDu) {
       for (let s = 0; s <= this.bendCount; s++) {
         const dv = s * bendHeight;
-        const v = (curX + du - 0.1) * normalizeScale;
+        const v = (curX + du) * normalizeScale;
         const u = (curY - dv) * normalizeScale;
         uv.push(v, u);
       }
       curX += du;
     }
 
-    curX = start.x + this.depth;
+    curX = start.x + textureSizes.z;
     curY = start.y;
 
-    const topDu = [0, this.width, this.width, this.width];
+    const topDu = [0, textureSizes.x, textureSizes.x, textureSizes.x];
     let idx = 0;
     for (const du of topDu) {
       const fix = idx % 2 === 0 ? 0 : -0.022;
 
-      uv.push((curX + du + fix) * normalizeScale, (curY -0.01) * normalizeScale);
-      uv.push((curX + du + fix) * normalizeScale, (curY - this.depth + 0.01) * normalizeScale);
+      uv.push((curX + du + fix) * normalizeScale, (curY) * normalizeScale);
+      uv.push((curX + du + fix) * normalizeScale, (curY - textureSizes.z) * normalizeScale);
 
       if (idx % 2 === 0) {
         curX += du;
       }
       idx++;
     }
-
-    // if (uv.find((uv) => uv >= 1 || uv <= 0))
-      console.log(uv);
 
     return uv;
   }
