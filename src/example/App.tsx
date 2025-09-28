@@ -1,17 +1,15 @@
-import emote from "../emotes/SPE_D4DJ_Dance.json";
 import {EmotePlayerScene} from "@/EmotePlayerScene.tsx";
 import EmotePlayer from "@/EmotePlayer.tsx";
 import {Vector3} from "three";
-import {useEffect, useRef} from "react";
+import {type ChangeEvent, useCallback, useEffect, useRef, useState} from "react";
 import type {EmotePlayerAPI} from "@/types/playerModel";
+import type {Emote} from "../lib/emoteAnimation/types/animationJson";
 
 
 function App() {
   const playerApiRef = useRef<EmotePlayerAPI>(null);
 
   useEffect(() => {
-    console.log(playerApiRef);
-
     const onKeyDown = (ev: KeyboardEvent) => {
       if (playerApiRef.current) {
         const playerApi = playerApiRef.current;
@@ -28,10 +26,30 @@ function App() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
+  const [emote, setEmote] = useState<Emote>();
+
+  const onEmoteChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
+    const target = ev.target;
+
+    if (target.files) {
+      const emoteFile = target.files[0];
+
+      emoteFile.text().then((emoteJson) => {
+        setEmote(JSON.parse(emoteJson));
+      });
+    }
+  }, []);
+
   return (
-     <EmotePlayerScene style={{ width: "100%", height: "100vh", margin: 0}} defaultScene >
-       <EmotePlayer ref={playerApiRef} emote={emote} playerModelType={"bend"} playerModelPosition={new Vector3(0,0,0)}  />
-     </EmotePlayerScene>
+    <div style={{ display: "flex" }}>
+       <EmotePlayerScene style={{ width: "70%", height: "100vh", margin: 0}} defaultScene >
+         <EmotePlayer ref={playerApiRef} emote={emote} playerModelType={"bend"} playerModelPosition={new Vector3(0,0,0)}  />
+       </EmotePlayerScene>
+      <div>
+        <label htmlFor="emote-file-input">Эмоция</label>
+        <input onChange={onEmoteChange} id={"emote-file-input"} type="file" accept={"application/json"} />
+      </div>
+    </div>
   );
 }
 
