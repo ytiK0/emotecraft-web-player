@@ -14,6 +14,9 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist/types",
 
     /* Linting */
     "strict": true,
@@ -24,8 +27,8 @@
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/lib/*"],
+      "@/*": ["src/lib/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src/lib"]
 }
