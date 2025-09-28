@@ -45,9 +45,9 @@ export const ChainedPlayerModel = forwardRef<PlayerModelMesh, PlayerModelProps>(
 
   return (
     <SkinMaterialProvider skinSrc={"/skin.png"}>
-          <Head ref={setRepresentationRef} name={"head"} position={head} debug={debug} />
       <Torso ref={baseRef} name={"torso"} position={modelPosition} debug={debug} >
         <TorsoBend ref={bendRef} name={"torso_bend"} position={torso_bend} debug={debug} >
+          <Head ref={setRepresentationRef} name={"head"} position={head} debug={debug} />
           <LeftArm ref={setRepresentationRef} name={"leftArm"} position={leftArm} debug={debug} />
           <RightArm ref={setRepresentationRef} name={"rightArm"} position={rightArm} debug={debug} />
         </TorsoBend>
