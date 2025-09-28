@@ -1,20 +1,15 @@
 import {type CameraProps, Canvas, type GLProps} from "@react-three/fiber";
-import type {CSSProperties, ReactElement} from "react";
+import type {CSSProperties, PropsWithChildren} from "react";
 import {clsx} from "@/utils/clsx.ts";
 import {Color, type ColorRepresentation} from "three";
-import type EmotePlayer from "@/EmotePlayer.tsx";
-import type {ChainedPlayerModel} from "@/ChainedPlayerModel.tsx";
-import type {BendablePlayerModel} from "@/BendablePlayerModel.tsx";
 import {OrbitControls} from "@react-three/drei";
 
-type AllowChild = ReactElement<typeof EmotePlayer | typeof ChainedPlayerModel | typeof BendablePlayerModel>;
-
-type EmotePlayerSceneProps = {
+type EmotePlayerSceneProps = PropsWithChildren<{
   className?: string,
   style?: CSSProperties,
   skyColor?: ColorRepresentation,
-  children?: AllowChild | AllowChild[]
-}
+  defaultScene?: boolean
+}>
 
 const renderer: GLProps = {
   powerPreference:"low-power",
@@ -40,7 +35,7 @@ const cameraConfig: CameraProps = {
 const DEFAULT_SKY_COLOR = new Color("#45d3fb");
 const ORBIT_CONTROLS_TARGET = [0, 16, 0] as const;
 
-export function EmotePlayerScene({className, style, skyColor, children}: EmotePlayerSceneProps) {
+export function EmotePlayerScene({className, style, skyColor, children, defaultScene}: EmotePlayerSceneProps) {
   return (
     <div className={clsx("emote-player-scene-wrapper", className)} style={style}>
       <Canvas camera={cameraConfig} gl={renderer}>
@@ -52,7 +47,9 @@ export function EmotePlayerScene({className, style, skyColor, children}: EmotePl
 
 
         { children }
-        <GroundPlane />
+        {
+          defaultScene && <GroundPlane />
+        }
       </Canvas>
     </div>
   );

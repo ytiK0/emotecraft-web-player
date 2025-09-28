@@ -1,10 +1,10 @@
 import {
-  type BufferGeometry, type Euler,
-  type Vector2, type IUniform,
+  type BufferGeometry, type Euler, type IUniform,
   type Material, Camera, Group,
   Scene, SkinnedMesh, WebGLRenderer
 } from "three";
 import {BodyPartGeometry} from "@/bodyParts/base/BodyPartGeometry.ts";
+import type {TextureConfig} from "@/bodyParts";
 
 const buildBendShader = (minMaxDiff: number) => {
   const minMaxFloat = minMaxDiff.toFixed(2);
@@ -51,8 +51,8 @@ export class BendableBodyPartMesh extends SkinnedMesh<BodyPartGeometry> {
   private bendChildrenGroup?: Group;
   bendRotation: Euler;
 
-  constructor(width: number, height: number, depth: number, textureStart: Vector2, bendDirection: "top" | "bottom", material?: Material) {
-    const geometry = new BodyPartGeometry(width, height, depth, textureStart, true, bendDirection);
+  constructor(width: number, height: number, depth: number, textureConfig: TextureConfig, bendDirection: "top" | "bottom", material?: Material) {
+    const geometry = new BodyPartGeometry(width, height, depth, textureConfig, true, bendDirection);
 
     if (material) {
       material = material.clone();
@@ -97,20 +97,6 @@ export class BendableBodyPartMesh extends SkinnedMesh<BodyPartGeometry> {
     this.bendChildrenGroup = group;
   }
 
-  setBendRotation(rotationValue: number) {
-    this.geometry.bendBone!.rotation.x = rotationValue;
-    if (this.uniforms) {
-      this.uniforms.bend.value = rotationValue;
-    }
-  }
-
-  setBendAxisRotation(rotationValue: number) {
-    this.geometry.bendBone!.rotation.z = rotationValue;
-    if (this.uniforms) {
-      this.uniforms.bendAxis.value = rotationValue;
-    }
-  }
-
   onBeforeRender(renderer: WebGLRenderer, scene: Scene, camera: Camera, geometry: BufferGeometry, material: Material, group: Group) {
     super.onBeforeRender(renderer, scene, camera, geometry, material, group);
 
@@ -118,6 +104,5 @@ export class BendableBodyPartMesh extends SkinnedMesh<BodyPartGeometry> {
       this.bendChildrenGroup.rotation.z = this.geometry.bendBone!.rotation.z;
       this.bendChildrenGroup.rotation.x = this.geometry.bendBone!.rotation.x;
     }
-
   }
 }
