@@ -12,7 +12,7 @@ type BodyPartProps = {
 type BodyPartBaseProps = BodyPartProps & {
   pivotShift: Vector3 | Vector3Tuple,
   partSize: Vector3Tuple,
-  textureStart: Vector2,
+  textureConfig: TextureConfig,
   children?: ReactNode
 }
 
@@ -24,3 +24,9 @@ type BodyPartWithBend = BodyParts |
   "rightArm_bend" |
   "leftLeg_bend" |
   "rightLeg_bend";
+
+type TextureConfig = {
+  textureStart: Vector2,
+  sidesStart?: Vector2,
+  textureSizes?: Vector3
+}
