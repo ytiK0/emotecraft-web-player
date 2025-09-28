@@ -9,7 +9,7 @@ export class EmoteAnimationPlayer {
   private readonly updatesBucket = new UpdatesBucket<Update>();
   private readonly meshUpdater: MeshUpdater;
   private animation?: Animation | null;
-  private _isPlaying = false;
+  private _isPlaying = true;
 
   get isPlaying() {
     return this._isPlaying;
@@ -36,9 +36,13 @@ export class EmoteAnimationPlayer {
     this._isPlaying = true;
   }
 
+  toggle() {
+    this._isPlaying = !this._isPlaying;
+  }
+
   restart() {
-    this.resume();
     this.timeLine.reset();
+    this.meshUpdater.reset();
   }
 
   update(delta: Second) {
