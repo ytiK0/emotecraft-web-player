@@ -12,7 +12,7 @@ type EmotePlayerProps = {
   emote?: Emote,
   playerModelPosition?: Vector3,
   playerModelType?: "bend" | "chain",
-  skinSrc?: string
+  skinSrc: string
 }
 
 const EmotePlayer = forwardRef<EmotePlayerAPI | undefined, EmotePlayerProps>(({emote, playerModelPosition, playerModelType, skinSrc}, ref) => {
@@ -40,7 +40,7 @@ const EmotePlayer = forwardRef<EmotePlayerAPI | undefined, EmotePlayerProps>(({e
   }
 
   return (
-    <SkinMaterialProvider skinSrc={skinSrc || "./skin.png"}>
+    <SkinMaterialProvider skinSrc={skinSrc}>
       <PlayerModel position={playerModelPosition} ref={modelRef} />
     </SkinMaterialProvider>
   );
