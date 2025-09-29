@@ -22,12 +22,12 @@ export const BendableBodyPartBase = forwardRef<DisposableBodyPartRepresentation 
   position, bendChildren, bendDirection
 }, ref) => {
   const skinMaterial = useSkinMaterial();
-  const baseBodyPartMesh = useMemo(() =>
+  const bodyPartMesh = useMemo(() =>
     new BendableBodyPartMesh(...partSize, textureConfig, overlayTextureConfig, skinMaterial, bendDirection),
     [bendDirection, overlayTextureConfig, partSize, skinMaterial, textureConfig]
   );
 
-  baseBodyPartMesh.name = name;
+  bodyPartMesh.name = name;
 
   const wrapperRef = useRef<Mesh>(null);
 
@@ -41,21 +41,21 @@ export const BendableBodyPartBase = forwardRef<DisposableBodyPartRepresentation 
         position: wrapper.position,
         rotation: wrapper.rotation,
         scale: wrapper.scale,
-        bendRotation: baseBodyPartMesh.bendRotation
+        bendRotation: bodyPartMesh.bendRotation
       };
 
-      return { representation, bindMeshes: [wrapper, baseBodyPartMesh] };
+      return { representation, bindMeshes: [wrapper, bodyPartMesh] };
     }
-  }, [baseBodyPartMesh]);
+  }, [bodyPartMesh]);
 
   const bendChildrenGroupRef = useRef<Group>(null);
 
   useEffect(() => {
     const bendChildrenGroup = bendChildrenGroupRef.current;
     if (bendChildrenGroup) {
-      baseBodyPartMesh.setBendChildrenGroup(bendChildrenGroup);
+      bodyPartMesh.setBendChildrenGroup(bendChildrenGroup);
     }
-  }, [baseBodyPartMesh]);
+  }, [bodyPartMesh]);
 
   return (
     <group name={`${name}_P`} position={position}>
@@ -63,7 +63,7 @@ export const BendableBodyPartBase = forwardRef<DisposableBodyPartRepresentation 
         {debug && <DebugSphere/>}
         <object3D position={pivotShift}>
           {debug && <DebugSphere color={"red"}/>}
-            <primitive object={baseBodyPartMesh} />
+            <primitive object={bodyPartMesh} />
           {/*{*/}
           {/*  overlayBodyPartMesh*/}
           {/*  &&*/}
