@@ -9,24 +9,19 @@ type BodyPartProps = {
   children?: ReactNode;
 }
 
+type Sides = "top" | "bottom" | "back" | "front" | "left" | "right"
+
 type BodyPartBaseProps = BodyPartProps & {
   pivotShift: Vector3 | Vector3Tuple,
   partSize: Vector3Tuple,
   textureConfig: TextureConfig,
+  overlayTextureConfig?: TextureConfig,
   children?: ReactNode
 }
-
-type BodyParts = "head" | "torso" | "leftArm" | "rightArm" | "leftLeg" | "rightLeg";
-
-type BodyPartWithBend = BodyParts |
-  "torso_bend" |
-  "leftArm_bend" |
-  "rightArm_bend" |
-  "leftLeg_bend" |
-  "rightLeg_bend";
 
 type TextureConfig = {
   textureStart: Vector2,
   sidesStart?: Vector2,
-  textureSizes?: Vector3
+  textureSizes?: Vector3,
+  excludeSides?: Sides[]
 }

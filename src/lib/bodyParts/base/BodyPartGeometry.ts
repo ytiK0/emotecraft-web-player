@@ -1,8 +1,6 @@
 import {
-  Bone,
   BufferGeometry,
   Float32BufferAttribute,
-  Skeleton,
   Uint8BufferAttribute, Vector3
 } from "three";
 import type {TextureConfig} from "@/bodyParts";
@@ -14,9 +12,6 @@ export class BodyPartGeometry extends BufferGeometry{
   public readonly height: number;
   public readonly depth: number;
   private readonly bendCount: number;
-  public readonly bendBone?: Bone;
-  public readonly baseBone?: Bone;
-  public readonly skeleton?: Skeleton;
 
   constructor(width: number, height: number, depth: number, textureConfig: TextureConfig, bendable = false, bendDirection: "bottom" | "top" = "bottom") {
     super();
@@ -42,21 +37,6 @@ export class BodyPartGeometry extends BufferGeometry{
       this.setAttribute("skinWeight", new Float32BufferAttribute(skinWeights, 4));
       // indicates which verts should change position
       this.setAttribute("bendVert", new Float32BufferAttribute(bendVerts, 1));
-
-      const bones: Bone[] = [];
-
-      const base = new Bone();
-      const bend = new Bone();
-
-      base.position.y = width / 2;
-      bend.position.y = -width / 2;
-
-      base.add(bend);
-      bones.push(base, bend);
-
-      this.skeleton = new Skeleton(bones);
-      this.baseBone = base;
-      this.bendBone = bend;
     }
   }
 

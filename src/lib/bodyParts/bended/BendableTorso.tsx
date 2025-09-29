@@ -4,18 +4,23 @@ import type {BodyPartProps, TextureConfig} from "@/bodyParts/types/bodyPart";
 import {BendableBodyPartBase} from "@/bodyParts/bended/BendableBodyPartBase.tsx";
 import type {DisposableBodyPartRepresentation} from "@/types/playerModel";
 
-const TORSO_SIZE = [8, 12, 4] as Vector3Tuple;
-const TORSO_PIVOT_SHIFT = new Vector3(0, 6, 0);
+const torsoSize = [8, 12, 4] as Vector3Tuple;
+const torsoPivotPointShift = new Vector3(0, 6, 0);
 
-const TORSO_TEXTURE_CONFIG: TextureConfig = {
+const torsoTextureConfig: TextureConfig = {
   textureStart: new Vector2(16, 16)
+};
+const torsoOverlayTextureConfig: TextureConfig = {
+  textureStart: new Vector2(16, 32),
+  textureSizes: new Vector3(...torsoSize)
 };
 export const BendableTorso = forwardRef<DisposableBodyPartRepresentation, BodyPartProps & {bendChildren?: ReactNode}>(({children, name, debug, position, bendChildren}, ref) => {
   return <BendableBodyPartBase
     ref={ref}
-    pivotShift={TORSO_PIVOT_SHIFT}
-    partSize={TORSO_SIZE}
-    textureConfig={TORSO_TEXTURE_CONFIG}
+    pivotShift={torsoPivotPointShift}
+    partSize={torsoSize}
+    textureConfig={torsoTextureConfig}
+    overlayTextureConfig={torsoOverlayTextureConfig}
     name={name}
     debug={debug}
     position={position}
