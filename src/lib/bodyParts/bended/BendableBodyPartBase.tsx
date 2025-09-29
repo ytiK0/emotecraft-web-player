@@ -15,15 +15,19 @@ export const BendableBodyPartBase = forwardRef<DisposableBodyPartRepresentation 
   pivotShift,
   partSize,
   textureConfig,
+  overlayTextureConfig,
   name,
   debug,
   children,
   position, bendChildren, bendDirection
 }, ref) => {
   const skinMaterial = useSkinMaterial();
-  const bodyPartMesh = useMemo(() => new BendableBodyPartMesh(...partSize, textureConfig, bendDirection || "bottom", skinMaterial), [bendDirection, partSize, skinMaterial, textureConfig]);
+  const baseBodyPartMesh = useMemo(() =>
+    new BendableBodyPartMesh(...partSize, textureConfig, overlayTextureConfig, skinMaterial, bendDirection),
+    [bendDirection, overlayTextureConfig, partSize, skinMaterial, textureConfig]
+  );
 
-  bodyPartMesh.name = name;
+  baseBodyPartMesh.name = name;
 
   const wrapperRef = useRef<Mesh>(null);
 
@@ -37,21 +41,21 @@ export const BendableBodyPartBase = forwardRef<DisposableBodyPartRepresentation 
         position: wrapper.position,
         rotation: wrapper.rotation,
         scale: wrapper.scale,
-        bendRotation: bodyPartMesh.bendRotation
+        bendRotation: baseBodyPartMesh.bendRotation
       };
 
-      return { representation, bindMeshes: [wrapper, bodyPartMesh] };
+      return { representation, bindMeshes: [wrapper, baseBodyPartMesh] };
     }
-  }, [bodyPartMesh]);
+  }, [baseBodyPartMesh]);
 
   const bendChildrenGroupRef = useRef<Group>(null);
 
   useEffect(() => {
     const bendChildrenGroup = bendChildrenGroupRef.current;
     if (bendChildrenGroup) {
-      bodyPartMesh.setBendChildrenGroup(bendChildrenGroup);
+      baseBodyPartMesh.setBendChildrenGroup(bendChildrenGroup);
     }
-  }, [bodyPartMesh]);
+  }, [baseBodyPartMesh]);
 
   return (
     <group name={`${name}_P`} position={position}>
@@ -59,10 +63,15 @@ export const BendableBodyPartBase = forwardRef<DisposableBodyPartRepresentation 
         {debug && <DebugSphere/>}
         <object3D position={pivotShift}>
           {debug && <DebugSphere color={"red"}/>}
-          <primitive object={bodyPartMesh} />
+            <primitive object={baseBodyPartMesh} />
+          {/*{*/}
+          {/*  overlayBodyPartMesh*/}
+          {/*  &&*/}
+          {/*  <primitive object={overlayBodyPartMesh}/>*/}
+          {/*}*/}
         </object3D>
         {
-          bendChildren &&
+        bendChildren &&
           <group ref={bendChildrenGroupRef} position={[0,6,0]} name={"bend-children"}>
             {debug && <DebugSphere color={"green"}/>}
             { bendChildren }
