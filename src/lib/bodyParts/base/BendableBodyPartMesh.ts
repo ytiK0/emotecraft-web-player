@@ -1,10 +1,19 @@
 import {
-  type BufferGeometry, type Euler, type IUniform,
-  type Material, Camera, Group,
-  Scene, SkinnedMesh, WebGLRenderer
+  Bone,
+  type BufferGeometry,
+  Camera,
+  type Euler,
+  Group,
+  type IUniform,
+  type Material,
+  Scene,
+  Skeleton,
+  SkinnedMesh,
+  WebGLRenderer
 } from "three";
 import {BodyPartGeometry} from "@/bodyParts/base/BodyPartGeometry.ts";
 import type {TextureConfig} from "@/bodyParts";
+import {mergeGeometries} from "three/examples/jsm/utils/BufferGeometryUtils.js";
 
 const buildBendShader = (minMaxDiff: number) => {
   const minMaxFloat = minMaxDiff.toFixed(2);
@@ -46,13 +55,25 @@ uniform float dir;
 attribute float bendVert;
 `;
 
-export class BendableBodyPartMesh extends SkinnedMesh<BodyPartGeometry> {
+export class BendableBodyPartMesh extends SkinnedMesh {
   private uniforms?: Record<string, IUniform>;
   private bendChildrenGroup?: Group;
   bendRotation: Euler;
+  private bendBone: Bone;
 
-  constructor(width: number, height: number, depth: number, textureConfig: TextureConfig, bendDirection: "top" | "bottom", material?: Material) {
-    const geometry = new BodyPartGeometry(width, height, depth, textureConfig, true, bendDirection);
+  constructor(
+    width: number,
+    height: number,
+    depth: number,
+    textureConfig: TextureConfig,
+    overlayTextureConfig?: TextureConfig,
+    material?: Material,
+    bendDirection: "top" | "bottom" = "bottom",
+  ) {
+    const baseGeometry = new BodyPartGeometry(width, height, depth, textureConfig, true, bendDirection);
+    const overlayGeometry = new BodyPartGeometry(width + 1, height + 1, depth + 1, overlayTextureConfig || textureConfig, true, bendDirection);
+
+    const totalGeometry = mergeGeometries([baseGeometry, overlayGeometry]);
 
     if (material) {
       material = material.clone();
@@ -72,14 +93,14 @@ export class BendableBodyPartMesh extends SkinnedMesh<BodyPartGeometry> {
       };
     }
 
+    super(totalGeometry, material);
 
-    super(geometry, material);
+    const bones = this.generateBones(width);
+    this.attachSkeleton(bones);
 
-    this.add(geometry.baseBone!);
-    this.bind(geometry.skeleton!);
+    this.bendBone = bones[1];
 
-
-    this.bendRotation = new Proxy(this.geometry.bendBone!.rotation, {
+    this.bendRotation = new Proxy(this.bendBone.rotation, {
       set: (target, p:string , newValue , receiver) => {
         if (p === "x" && this.uniforms) {
           this.uniforms.bend.value = newValue;
@@ -93,6 +114,27 @@ export class BendableBodyPartMesh extends SkinnedMesh<BodyPartGeometry> {
     });
   }
 
+  private attachSkeleton(bones: Bone[]) {
+    const skeleton = new Skeleton(bones);
+
+    this.add(bones[0]);
+    this.bind(skeleton);
+  }
+
+  private generateBones(width: number) {
+    const bones: Bone[] = [];
+
+    const baseBone = new Bone();
+    const bendBone = new Bone();
+
+    baseBone.position.y = width / 2;
+    bendBone.position.y = -width / 2;
+
+    baseBone.add(bendBone);
+    bones.push(baseBone, bendBone);
+    return bones;
+  }
+
   setBendChildrenGroup(group: Group) {
     this.bendChildrenGroup = group;
   }
@@ -101,8 +143,8 @@ export class BendableBodyPartMesh extends SkinnedMesh<BodyPartGeometry> {
     super.onBeforeRender(renderer, scene, camera, geometry, material, group);
 
     if (this.bendChildrenGroup) {
-      this.bendChildrenGroup.rotation.z = this.geometry.bendBone!.rotation.z;
-      this.bendChildrenGroup.rotation.x = this.geometry.bendBone!.rotation.x;
+      this.bendChildrenGroup.rotation.z = this.bendBone.rotation.z;
+      this.bendChildrenGroup.rotation.x = this.bendBone.rotation.x;
     }
   }
 }
