@@ -16,6 +16,7 @@ export function SkinMaterialProvider({ skinSrc, children }: PropsWithChildren<{ 
     color: 0xFFFFFF,
     map: texture,
     transparent: true,
+    alphaTest: 0.01,
   }), [texture]);
 
   return (
