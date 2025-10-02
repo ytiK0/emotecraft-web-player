@@ -6,8 +6,8 @@ export class Channel {
   private readonly keyframes: IEmoteKeyframe[] = [];
   private cursor = 0;
 
-  constructor(transformationDir: MoveTransformationDir, keyframes: IEmoteKeyframe[]) {
-    const { axis, transformType} = getTransformTypeAndAxisByTransformDir(transformationDir);
+  constructor(transformationDir: MoveTransformationDir, keyframes: IEmoteKeyframe[], zeroTickValue=0) {
+    const { axis, transformType } = getTransformTypeAndAxisByTransformDir(transformationDir);
 
     this.transformType = transformType;
     this.axis = axis;
@@ -15,7 +15,7 @@ export class Channel {
     this.keyframes.push({
       tick: 0,
       easing: keyframes[0]?.easing || "LINEAR",
-      value: 0,
+      value: zeroTickValue,
       axis: this.axis,
       transformType: this.transformType,
     });

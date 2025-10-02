@@ -2,6 +2,7 @@ import {Channel} from "@/emoteAnimation/core/Channel.ts";
 import type {EmoteKeyframe} from "@/emoteAnimation/core/EmoteKeyframe.ts";
 import {Interpolator} from "@/emoteAnimation/core/Interpolator.ts";
 import type {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket.ts";
+import {isScaleTransformationDir} from "@/utils/typeGuards/isScaleTransformationDir.ts";
 
 const TRANSFORMATION_DIR: MoveTransformationDir[] = [
   "x", "y", "z",
@@ -17,7 +18,11 @@ export class Track {
 
   constructor(target: MovePart, keyframes: EmoteKeyframe[]) {
     this.target = target;
-    this.channels = TRANSFORMATION_DIR.map((dir) => new Channel(dir, keyframes));
+    this.channels = TRANSFORMATION_DIR.map((dir) => {
+      const zeroTickValue = isScaleTransformationDir(dir) ? 1 : 0;
+
+      return new Channel(dir, keyframes, zeroTickValue);
+    });
   }
 
   getUpdates(t: Tick): Update[] {
