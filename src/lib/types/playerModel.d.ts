@@ -6,6 +6,7 @@ type Pose = Partial<Record<BodyPart, Omit<BodyPartProps, "name">>>;
 type PlayerModelProps = {
   position?: Vector3,
   debug?: boolean,
+  isSlimModel?: boolean
 }
 
 type BodyPartRepresentation = {
