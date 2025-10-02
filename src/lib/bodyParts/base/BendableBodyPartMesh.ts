@@ -102,9 +102,9 @@ export class BendableBodyPartMesh extends SkinnedMesh {
 
     this.bendRotation = new Proxy(this.bendBone.rotation, {
       set: (target, p:string , newValue , receiver) => {
-        if (p === "x" && this.uniforms) {
+        if ((p === "x" || p === "_x") && this.uniforms) {
           this.uniforms.bend.value = newValue;
-        } else if (p === "z" && this.uniforms) {
+        } else if ((p === "z" || p === "_z") && this.uniforms) {
           this.uniforms.bendAxis.value = newValue;
         }
 

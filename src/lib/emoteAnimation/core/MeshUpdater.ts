@@ -60,7 +60,9 @@ export class MeshUpdater {
       mesh.position.multiplyScalar(0);
       mesh.rotation.set(0,0,0);
       mesh.scale.set(1,1,1);
-      mesh.bendRotation?.set(0,0,0,);
+      if (mesh.bendRotation) {
+        mesh.bendRotation.set(0,0,0);
+      }
     }
   }
 
