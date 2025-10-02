@@ -2,7 +2,6 @@ import {forwardRef, useImperativeHandle} from "react";
 import {Euler, type Vector3} from "three";
 import {useEmotePlayer} from "@/hooks/useEmotePlayer.ts";
 import {BendablePlayerModel} from "@/BendablePlayerModel.tsx";
-import {ChainedPlayerModel} from "@/ChainedPlayerModel.tsx";
 import {SkinMaterialProvider} from "@/contexts/SkinMaterial";
 import type {EmotePlayerAPI} from "@/types/playerModel";
 
@@ -11,11 +10,16 @@ Euler.DEFAULT_ORDER = "ZYX" as "XYZ";
 type EmotePlayerProps = {
   emote?: Emote,
   playerModelPosition?: Vector3,
-  playerModelType?: "bend" | "chain",
-  skinSrc: string
+  skinSrc: string,
+  isSlimModel?: boolean,
 }
 
-const EmotePlayer = forwardRef<EmotePlayerAPI | undefined, EmotePlayerProps>(({emote, playerModelPosition, playerModelType, skinSrc}, ref) => {
+const EmotePlayer = forwardRef<EmotePlayerAPI | undefined, EmotePlayerProps>(({
+  emote,
+  playerModelPosition,
+  skinSrc,
+  isSlimModel
+}, ref) => {
   const [player, modelRef] = useEmotePlayer(emote);
 
   useImperativeHandle(ref, () => {
@@ -31,17 +35,10 @@ const EmotePlayer = forwardRef<EmotePlayerAPI | undefined, EmotePlayerProps>(({e
     };
   }, [player]);
 
-  let PlayerModel;
-
-  if (playerModelType === "bend") {
-    PlayerModel = BendablePlayerModel;
-  } else {
-    PlayerModel = ChainedPlayerModel;
-  }
 
   return (
     <SkinMaterialProvider skinSrc={skinSrc}>
-      <PlayerModel position={playerModelPosition} ref={modelRef} />
+      <BendablePlayerModel position={playerModelPosition} ref={modelRef} isSlimModel={isSlimModel} />
     </SkinMaterialProvider>
   );
 });
