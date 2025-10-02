@@ -25,6 +25,7 @@ function App() {
   }, []);
 
   const [emote, setEmote] = useState<unknown>();
+  const skinSrcInputRef = useRef<HTMLInputElement>(null);
   const [skinSrc, setSkinSrc] = useState("https://mc-heads.net/skin/MrEka_");
   const [isSlim, setIsSlim] = useState(false);
 
@@ -40,10 +41,11 @@ function App() {
     }
   }, []);
 
-  const onSkinSrcChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
-    const target = ev.target;
-
-    setSkinSrc(target.value);
+  const onSkinSrcApply = useCallback(() => {
+    const skinSrcInput = skinSrcInputRef.current;
+    if (skinSrcInput) {
+      setSkinSrc(skinSrcInput.value);
+    }
   }, []);
 
   const onSlimChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +68,10 @@ function App() {
         <label htmlFor="emote-file-input">Эмоция</label>
         <input onChange={onEmoteChange} id={"emote-file-input"} type="file" accept={"application/json"} />
         <label htmlFor="skinsrc">Ссылка на источник скина</label>
-        <input id={"skinsrc"} type="url" value={skinSrc} onChange={onSkinSrcChange} />
+        <div style={{ display: "flex", flexDirection: "column", gap: 2}}>
+          <input ref={skinSrcInputRef} id={"skinsrc"} type="url" defaultValue={skinSrc} />
+          <button onClick={onSkinSrcApply}>Apply</button>
+        </div>
         <div>
           <label htmlFor="isslim">SlimModel</label>
           <input type={"checkbox"} onChange={onSlimChange} checked={isSlim}/>
