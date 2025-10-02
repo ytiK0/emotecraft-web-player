@@ -1,11 +1,11 @@
 import {Vector2, Vector3, type Vector3Tuple} from "three";
 import {forwardRef} from "react";
 import type {BodyPartProps, TextureConfig} from "@/bodyParts/types/bodyPart";
-import {BendableBodyPartBase} from "@/bodyParts/bended/BendableBodyPartBase.tsx";
+import {BendableBodyPartBase} from "@/bodyParts/bendable/BendableBodyPartBase.tsx";
 import type {DisposableBodyPartRepresentation} from "@/types/playerModel";
 
 const legSize = [4, 12, 4] as Vector3Tuple;
-const legGeometrySize = legSize.map((e) => e - 0.11) as Vector3Tuple;
+const legGeometrySize = legSize.map((e) => e - 0.01) as Vector3Tuple;
 
 const LEFT_LEG_PIVOT_POINT_SHIFT = new Vector3(0,-6, 0);
 const LEFT_LEG_TEXTURE_CONFIG: TextureConfig = {
@@ -34,7 +34,7 @@ export const BendableLeftLeg = forwardRef<DisposableBodyPartRepresentation, Body
   );
 });
 
-const rightLegGeometrySize = legSize.map((e) => e - 0.15) as Vector3Tuple;
+const rightLegGeometrySize = legSize.map((e) => e - 0.01) as Vector3Tuple;
 
 const RIGHT_LEG_PIVOT_POINT_SHIFT = new Vector3(0,-6, 0);
 const RIGHT_LEG_TEXTURE_CONFIG: TextureConfig = {

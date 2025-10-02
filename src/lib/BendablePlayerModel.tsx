@@ -1,7 +1,6 @@
 import {forwardRef, useImperativeHandle} from "react";
-import {BendableLeftLeg, BendableRightLeg, BendableTorso, BendableRightArm, BendableLeftArm} from "@/bodyParts/bended";
+import {BendableLeftLeg, BendableRightLeg, BendableTorso, BendableRightArm, BendableLeftArm, Head} from "@/bodyParts/bendable";
 import {Vector3} from "three";
-import {Head} from "@/bodyParts/chained";
 import type {DisposableBodyPartRepresentation, PlayerModelMesh, PlayerModelProps} from "@/types/playerModel";
 import {useModelMeshes} from "@/hooks/useModelMeshes.ts";
 
