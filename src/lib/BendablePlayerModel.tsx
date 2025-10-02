@@ -1,14 +1,16 @@
 import {forwardRef, useImperativeHandle} from "react";
 import {BendableLeftLeg, BendableRightLeg, BendableTorso, BendableRightArm, BendableLeftArm} from "@/bodyParts/bended";
-import {Vector3, type Vector3Tuple} from "three";
+import {Vector3} from "three";
 import {Head} from "@/bodyParts/chained";
-import type {DisposableBodyPartRepresentation, PlayerModelMesh} from "@/types/playerModel";
+import type {DisposableBodyPartRepresentation, PlayerModelMesh, PlayerModelProps} from "@/types/playerModel";
 import {useModelMeshes} from "@/hooks/useModelMeshes.ts";
 
 const torsoPosition = new Vector3(0, 12, 0);
 const headPosition = new Vector3(0,6, 0);
 const leftArmPosition = new Vector3(5, 4, 0);
 const rightArmPosition = new Vector3(-5, 4, 0);
+const leftSlimArmPosition = new Vector3(4.5, 4, 0);
+const rightSlimArmPosition = new Vector3(-4.5, 4, 0);
 const leftLegPosition = new Vector3(2,0,0);
 const rightLegPosition = new Vector3(-2,0,0);
 
@@ -23,14 +25,30 @@ const TorsoBendBind = forwardRef<DisposableBodyPartRepresentation>((_, setMeshRe
   );
 });
 
-export const BendablePlayerModel = forwardRef<PlayerModelMesh, { position?: Vector3 | Vector3Tuple }>(({ position }, ref) => {
+const TorsoBendBindSlim = forwardRef<DisposableBodyPartRepresentation>((_, setMeshRef) => {
+  return (
+    <>
+      <Head ref={setMeshRef} position={headPosition} name={"head"} />
+      <BendableLeftArm ref={setMeshRef} position={leftSlimArmPosition} name={"leftArm"} isSlim />
+      <BendableRightArm ref={setMeshRef} position={rightSlimArmPosition} name={"rightArm"} isSlim />
+    </>
+  );
+});
+
+export const BendablePlayerModel = forwardRef<PlayerModelMesh, PlayerModelProps>(({ position, isSlimModel }, ref) => {
   const [meshesRef, setMeshRef] = useModelMeshes();
 
-  useImperativeHandle(ref, () => meshesRef.current as PlayerModelMesh,);
+  useImperativeHandle(ref, () => meshesRef.current as PlayerModelMesh);
+
+  const bendChildren = isSlimModel ? <TorsoBendBindSlim ref={setMeshRef} /> : <TorsoBendBind ref={setMeshRef} />;
+
   return (
     <group position={position}>
-      <BendableTorso ref={setMeshRef} position={torsoPosition} name={"torso"}
-                     bendChildren={<TorsoBendBind ref={setMeshRef} />}
+      <BendableTorso
+        name={"torso"}
+        ref={setMeshRef}
+        position={torsoPosition}
+        bendChildren={bendChildren}
       >
         <BendableLeftLeg ref={setMeshRef} position={leftLegPosition} name={"leftLeg"} />
         <BendableRightLeg ref={setMeshRef} position={rightLegPosition} name={"rightLeg"} />
