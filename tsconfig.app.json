@@ -14,9 +14,6 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "dist/types",
 
     /* Linting */
     "strict": true,
@@ -30,5 +27,6 @@
       "@/*": ["src/lib/*"]
     }
   },
-  "include": ["src/lib"]
+  "include": ["src/lib"],
+  "exclude": ["node_modules"]
 }
