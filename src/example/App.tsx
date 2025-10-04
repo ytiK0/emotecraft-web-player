@@ -1,7 +1,7 @@
 import {EmotePlayerScene} from "@/EmotePlayerScene.tsx";
-import EmotePlayer from "@/EmotePlayer.tsx";
+import { EmotePlayer } from "@/EmotePlayer.tsx";
 import {type ChangeEvent, useCallback, useEffect, useRef, useState} from "react";
-import type {EmotePlayerAPI} from "@/types/playerModel";
+import type {EmotePlayerAPI} from "@/types";
 
 
 function App() {
