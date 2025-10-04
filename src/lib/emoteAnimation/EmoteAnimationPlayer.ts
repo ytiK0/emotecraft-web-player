@@ -1,8 +1,8 @@
-import {Timeline} from "@/emoteAnimation/core/Timeline.ts";
-import {Animation} from "@/emoteAnimation/core/Animation.ts";
+import {Timeline} from "@/emoteAnimation/core/Timeline";
+import {Animation} from "@/emoteAnimation/core/Animation";
 import type {PlayerModelMesh} from "@/types/playerModel";
-import {MeshUpdater} from "@/emoteAnimation/core/MeshUpdater.ts";
-import {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket.ts";
+import {MeshUpdater} from "@/emoteAnimation/core/MeshUpdater";
+import {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket";
 
 export class EmoteAnimationPlayer {
   private readonly timeLine = new Timeline();

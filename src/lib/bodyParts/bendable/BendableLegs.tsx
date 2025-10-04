@@ -1,7 +1,7 @@
 import {Vector2, Vector3, type Vector3Tuple} from "three";
 import {forwardRef} from "react";
 import type {BodyPartProps, TextureConfig} from "@/bodyParts/types/bodyPart";
-import {BendableBodyPartBase} from "@/bodyParts/bendable/BendableBodyPartBase.tsx";
+import {BendableBodyPartBase} from "@/bodyParts/bendable/BendableBodyPartBase";
 import type {DisposableBodyPartRepresentation} from "@/types/playerModel";
 
 const legSize = [4, 12, 4] as Vector3Tuple;

@@ -1,9 +1,9 @@
 import {Vector3, type Vector3Tuple} from "three";
 import {forwardRef} from "react";
 import type {BodyPartProps} from "@/bodyParts/types/bodyPart";
-import {BendableBodyPartBase} from "@/bodyParts/bendable/BendableBodyPartBase.tsx";
+import {BendableBodyPartBase} from "@/bodyParts/bendable/BendableBodyPartBase";
 import type {DisposableBodyPartRepresentation} from "@/types/playerModel";
-import {buildTextureConfig} from "@/utils/buildTextureConfig.ts";
+import {buildTextureConfig} from "@/utils/buildTextureConfig";
 
 type  ArmsProps = BodyPartProps & {
   isSlim?: boolean

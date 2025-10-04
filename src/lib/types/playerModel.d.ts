@@ -24,10 +24,3 @@ type DisposableBodyPartRepresentation = {
 }
 
 type PlayerModelMesh = Record<MovePart, BodyPartRepresentation>;
-
-type EmotePlayerAPI = {
-  pause: () => void,
-  resume: () => void,
-  restart: () => void,
-  toggle: () => void
-}

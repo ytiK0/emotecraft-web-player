@@ -11,9 +11,9 @@ import {
   SkinnedMesh,
   WebGLRenderer
 } from "three";
-import {BodyPartGeometry} from "@/bodyParts/base/BodyPartGeometry.ts";
+import {BodyPartGeometry} from "@/bodyParts/base/BodyPartGeometry";
 import type {TextureConfig} from "@/bodyParts";
-import {mergeGeometries} from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import {mergeGeometries} from "three/addons/utils/BufferGeometryUtils.js";
 
 const buildBendShader = (minMaxDiff: number) => {
   const minMaxFloat = minMaxDiff.toFixed(2);

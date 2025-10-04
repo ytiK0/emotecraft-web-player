@@ -1,6 +1,6 @@
 import {useCallback, useRef} from "react";
 import type {BodyPartRepresentation, DisposableBodyPartRepresentation, PlayerModelMesh} from "@/types/playerModel";
-import {warn} from "@/utils/warn.ts";
+import {warn} from "@/utils/warn";
 
 export function useModelMeshes() {
   const meshes = useRef<Partial<PlayerModelMesh> & Record<string, BodyPartRepresentation>>({});

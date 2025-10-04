@@ -1,10 +1,10 @@
 import {forwardRef, useMemo} from "react";
-import DebugSphere from "@/utils/DebugSphere.tsx";
+import DebugSphere from "@/utils/DebugSphere";
 import {Mesh} from "three";
 import {useSkinMaterial} from "@/contexts/SkinMaterial";
-import {BodyPartGeometry} from "@/bodyParts/base/BodyPartGeometry.ts";
+import {BodyPartGeometry} from "@/bodyParts/base/BodyPartGeometry";
 import type {BodyPartBaseProps} from "@/bodyParts/types/bodyPart";
-import {getOverlaySize} from "@/utils/getOverlaySize.ts";
+import {getOverlaySize} from "@/utils/getOverlaySize";
 
 export const BodyPartBase = forwardRef<Mesh, BodyPartBaseProps>(({
   pivotShift,

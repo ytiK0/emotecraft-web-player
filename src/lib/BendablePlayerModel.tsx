@@ -2,7 +2,7 @@ import {forwardRef, useImperativeHandle} from "react";
 import {BendableLeftLeg, BendableRightLeg, BendableTorso, BendableRightArm, BendableLeftArm, Head} from "@/bodyParts/bendable";
 import {Vector3} from "three";
 import type {DisposableBodyPartRepresentation, PlayerModelMesh, PlayerModelProps} from "@/types/playerModel";
-import {useModelMeshes} from "@/hooks/useModelMeshes.ts";
+import {useModelMeshes} from "@/hooks/useModelMeshes";
 
 const torsoPosition = new Vector3(0, 12, 0);
 const headPosition = new Vector3(0,6, 0);

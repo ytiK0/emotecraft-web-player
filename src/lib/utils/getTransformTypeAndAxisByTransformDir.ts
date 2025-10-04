@@ -1,5 +1,5 @@
-import {isRotationTransformDir} from "@/utils/typeGuards/isRotationTransformDir.ts";
-import {isScaleTransformationDir} from "@/utils/typeGuards/isScaleTransformationDir.ts";
+import {isRotationTransformDir} from "@/utils/typeGuards/isRotationTransformDir";
+import {isScaleTransformationDir} from "@/utils/typeGuards/isScaleTransformationDir";
 
 const rotationMap = {
   "pitch": "x",

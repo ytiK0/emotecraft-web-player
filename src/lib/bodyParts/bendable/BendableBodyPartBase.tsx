@@ -1,8 +1,8 @@
 import {forwardRef, type ReactNode, useEffect, useImperativeHandle, useMemo, useRef} from "react";
-import DebugSphere from "@/utils/DebugSphere.tsx";
+import DebugSphere from "@/utils/DebugSphere";
 import {type Group, Mesh} from "three";
 import {useSkinMaterial} from "@/contexts/SkinMaterial";
-import {BendableBodyPartMesh} from "@/bodyParts/base/BendableBodyPartMesh.ts";
+import {BendableBodyPartMesh} from "@/bodyParts/base/BendableBodyPartMesh";
 import type {BodyPartRepresentation, DisposableBodyPartRepresentation} from "@/types/playerModel";
 import type {BodyPartBaseProps} from "@/bodyParts/types/bodyPart";
 

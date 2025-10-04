@@ -1,13 +1,13 @@
-import {Track} from "@/emoteAnimation/core/Track.ts";
+import {Track} from "@/emoteAnimation/core/Track";
 import {
   MOVE_TRANSFORMS_DIR,
   MOVE_TRANSFORMS_DIR_WITH_BENDING,
   POSITION_TRANSFORMS_DIR
 } from "@/emoteAnimation/constants";
-import {EmoteKeyframe} from "@/emoteAnimation/core/EmoteKeyframe.ts";
-import {isRotationTransformDir} from "@/utils/typeGuards/isRotationTransformDir.ts";
-import type {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket.ts";
-import {isScaleTransformationDir} from "@/utils/typeGuards/isScaleTransformationDir.ts";
+import {EmoteKeyframe} from "@/emoteAnimation/core/EmoteKeyframe";
+import {isRotationTransformDir} from "@/utils/typeGuards/isRotationTransformDir";
+import type {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket";
+import {isScaleTransformationDir} from "@/utils/typeGuards/isScaleTransformationDir";
 
 const MOVE_PARTS: MovePart[] = ["head", "torso", "leftArm", "rightArm", "leftLeg", "rightLeg"] as const;
 const LIMBS: Exclude<MovePart, "head" | "torso">[] = ["leftArm", "rightArm", "leftLeg", "rightLeg"];

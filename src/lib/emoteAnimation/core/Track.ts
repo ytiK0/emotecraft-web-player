@@ -1,8 +1,8 @@
-import {Channel} from "@/emoteAnimation/core/Channel.ts";
-import type {EmoteKeyframe} from "@/emoteAnimation/core/EmoteKeyframe.ts";
-import {Interpolator} from "@/emoteAnimation/core/Interpolator.ts";
-import type {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket.ts";
-import {isScaleTransformationDir} from "@/utils/typeGuards/isScaleTransformationDir.ts";
+import {Channel} from "@/emoteAnimation/core/Channel";
+import type {EmoteKeyframe} from "@/emoteAnimation/core/EmoteKeyframe";
+import {Interpolator} from "@/emoteAnimation/core/Interpolator";
+import type {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket";
+import {isScaleTransformationDir} from "@/utils/typeGuards/isScaleTransformationDir";
 
 const TRANSFORMATION_DIR: MoveTransformationDir[] = [
   "x", "y", "z",

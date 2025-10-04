@@ -1,4 +1,4 @@
-export * from "./EmotePlayer";
-export * from "./BendablePlayerModel";
-export * from "./ChainedPlayerModel";
-export * from "./EmotePlayerScene.tsx";
+export {  EmotePlayer } from "./EmotePlayer";
+export { EmotePlayerScene } from "./EmotePlayerScene";
+
+export type { EmotePlayerProps, EmotePlayerAPI, EmotePlayerSceneProps } from "./types";

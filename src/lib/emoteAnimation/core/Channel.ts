@@ -1,4 +1,4 @@
-import {getTransformTypeAndAxisByTransformDir} from "@/utils/getTransformTypeAndAxisByTransformDir.ts";
+import {getTransformTypeAndAxisByTransformDir} from "@/utils/getTransformTypeAndAxisByTransformDir";
 
 export class Channel {
   public readonly axis: Axis;

@@ -1,7 +1,7 @@
 import {type Mesh, Vector2, Vector3, type Vector3Tuple} from "three";
 import {forwardRef, useImperativeHandle, useRef} from "react";
 import type {BodyPartProps, TextureConfig} from "@/bodyParts/types/bodyPart";
-import {BodyPartBase} from "@/bodyParts/bendable/BodyPartBase.tsx";
+import {BodyPartBase} from "@/bodyParts/bendable/BodyPartBase";
 import type {DisposableBodyPartRepresentation} from "@/types/playerModel";
 
 const pivotPointShift = new Vector3(0, 4, 0);

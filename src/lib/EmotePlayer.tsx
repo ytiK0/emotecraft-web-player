@@ -1,18 +1,11 @@
 import {forwardRef, useImperativeHandle} from "react";
-import {Euler, type Vector3} from "three";
-import {useEmotePlayer} from "@/hooks/useEmotePlayer.ts";
-import {BendablePlayerModel} from "@/BendablePlayerModel.tsx";
+import {Euler} from "three";
+import {useEmotePlayer} from "@/hooks/useEmotePlayer";
+import {BendablePlayerModel} from "@/BendablePlayerModel";
 import {SkinMaterialProvider} from "@/contexts/SkinMaterial";
-import type {EmotePlayerAPI} from "@/types/playerModel";
+import type {EmotePlayerAPI, EmotePlayerProps} from "@/types";
 
 Euler.DEFAULT_ORDER = "ZYX" as "XYZ";
-
-type EmotePlayerProps = {
-  emote?: Emote,
-  playerModelPosition?: Vector3,
-  skinSrc: string,
-  isSlimModel?: boolean,
-}
 
 const EmotePlayer = forwardRef<EmotePlayerAPI | undefined, EmotePlayerProps>(({
   emote,
@@ -43,4 +36,4 @@ const EmotePlayer = forwardRef<EmotePlayerAPI | undefined, EmotePlayerProps>(({
   );
 });
 
-export default EmotePlayer;
+export { EmotePlayer };

@@ -1,19 +1,12 @@
 import {type CameraProps, Canvas, type GLProps} from "@react-three/fiber";
-import type {CSSProperties, PropsWithChildren} from "react";
-import {clsx} from "@/utils/clsx.ts";
-import {Color, type ColorRepresentation} from "three";
+import {clsx} from "@/utils/clsx";
+import {Color} from "three";
 import {OrbitControls} from "@react-three/drei";
-
-type EmotePlayerSceneProps = PropsWithChildren<{
-  className?: string,
-  style?: CSSProperties,
-  skyColor?: ColorRepresentation,
-  defaultScene?: boolean
-}>
+import type {EmotePlayerSceneProps} from "@/types";
 
 const renderer: GLProps = {
   powerPreference:"low-power",
-  antialias: false,
+  antialias: true,
   failIfMajorPerformanceCaveat: false
 };
 

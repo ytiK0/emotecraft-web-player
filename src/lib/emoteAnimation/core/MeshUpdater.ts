@@ -1,6 +1,6 @@
 import type {PlayerModelMesh} from "@/types/playerModel";
-import {warn} from "@/utils/warn.ts";
-import type {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket.ts";
+import {warn} from "@/utils/warn";
+import type {UpdatesBucket} from "@/emoteAnimation/core/UpdatesBucket";
 
 /**
  * ratio between blender position coordinates and

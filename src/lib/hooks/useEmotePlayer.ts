@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from "react";
-import {EmoteAnimationPlayer} from "@/emoteAnimation/EmoteAnimationPlayer.ts";
+import {EmoteAnimationPlayer} from "@/emoteAnimation/EmoteAnimationPlayer";
 import {useFrame} from "@react-three/fiber";
 import type {PlayerModelMesh} from "@/types/playerModel";
 
