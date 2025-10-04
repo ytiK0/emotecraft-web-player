@@ -1,6 +1,6 @@
 {
   "name": "emotecraft-web-player",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "type": "module",
   "exports": {
     ".": {
@@ -22,7 +22,14 @@
   "files": [
     "dist"
   ],
-
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ytiK0/emotecraft-web-player"
+  },
+  "homepage": "https://github.com/ytiK0/emotecraft-web-player",
+  "description": "Play Emotecraft emotes in web with React and Three",
+  "keywords": ["react", "three", "minecraft", "emotecraft", "animation", "3D"],
   "scripts": {
     "dev": "vite --host",
     "build": "tsc -b && vite build --mode production",
@@ -33,6 +40,14 @@
     "test": "vitest"
   },
   "peerDependencies": {
+    "@react-three/drei": ">=8",
+    "@react-three/fiber": ">=8",
+    "easing-functions": ">=1",
+    "react": ">=18",
+    "react-dom": ">=18",
+    "three": ">=0.160"
+  },
+  "dependencies": {
     "@react-three/drei": ">=8",
     "@react-three/fiber": ">=8",
     "easing-functions": ">=1",
