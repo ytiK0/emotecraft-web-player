@@ -21,7 +21,7 @@ function isEmoteA11yString(a11yStr: unknown): a11yStr is EmoteA11yString {
   return false;
 }
 
-export function validateEmote(emote: unknown): emote is Emote {
+export function isValidEmote(emote: unknown): emote is Emote {
   if (typeof emote !== "object") {
     return false;
   }
