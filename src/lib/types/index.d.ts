@@ -21,3 +21,7 @@ export type EmotePlayerProps = {
   skinSrc: string,
   isSlimModel?: boolean,
 }
+
+export type Emote = EmoteHead & {
+  emote: EmoteMeta
+}
