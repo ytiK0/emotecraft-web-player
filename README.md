@@ -3,7 +3,7 @@
 Компоненты из этой библиотеки позволят вам добавить в ваше React приложение плеер для проигрывания
 анимаций из мода [Emotecraft](https://modrinth.com/plugin/emotecraft)
 
-![preview](./assets/preview.gif)
+![preview](https://github.com/ytiK0/emotecraft-web-player/blob/master/assets/preview.gif?raw=true)
 
 # Установка
 
