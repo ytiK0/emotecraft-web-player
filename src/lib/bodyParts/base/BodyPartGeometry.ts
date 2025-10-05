@@ -140,6 +140,7 @@ export class BodyPartGeometry extends BufferGeometry{
         const dv = s * bendHeight;
         const v = (curX + du) * normalizeScale;
         const u = (curY - dv) * normalizeScale;
+
         uv.push(v, u);
       }
       curX += du;
@@ -148,13 +149,15 @@ export class BodyPartGeometry extends BufferGeometry{
     curX = start.x + textureSizes.z;
     curY = start.y;
 
+
+
     const topDu = [0, textureSizes.x, textureSizes.x, textureSizes.x];
     let idx = 0;
     for (const du of topDu) {
-      const fix = idx % 2 === 0 ? 0 : -0.022;
-
-      uv.push((curX + du + fix) * normalizeScale, (curY) * normalizeScale);
-      uv.push((curX + du + fix) * normalizeScale, (curY - textureSizes.z) * normalizeScale);
+      const fixV = 0.2 * (idx % 2 == 0 ? 1 : -1);
+      const fixU = 0.2;
+      uv.push((curX + du + fixV) * normalizeScale, (curY - fixU) * normalizeScale);
+      uv.push((curX + du + fixV) * normalizeScale, (curY - textureSizes.z + fixU) * normalizeScale);
 
       if (idx % 2 === 0) {
         curX += du;
